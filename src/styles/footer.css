@@ -1,0 +1,335 @@
+.site-footer {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-top: clamp(96px, 11vw, 168px);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* The brandbook's black-on-black logo as a quiet watermark. */
+.footer-watermark {
+  --logo-back: #181818;
+  --logo-front: #1f1f1f;
+
+  position: absolute;
+  z-index: -1;
+  right: -4%;
+  bottom: -10%;
+  width: clamp(360px, 40vw, 680px);
+  height: auto;
+}
+
+.site-footer .section-label {
+  --tab-bg: var(--red);
+  --tab-fg: var(--paper);
+
+  color: var(--ash);
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: start;
+  gap: 56px var(--grid-gap);
+}
+
+.footer-intro {
+  grid-column: 1 / span 6;
+}
+
+.footer-title {
+  margin-top: clamp(20px, 2.4vw, 32px);
+  font-size: clamp(46px, 5.6vw, 96px);
+  font-weight: 660;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-shadow: var(--text-shadow-ink);
+}
+
+.footer-note {
+  max-width: 30ch;
+  margin-top: 24px;
+  color: var(--ash);
+  font-size: clamp(17px, 1.4vw, 21px);
+  line-height: 1.4;
+}
+
+/* ---------- Contacts ---------- */
+
+.contact-groups {
+  display: grid;
+  grid-column: 7 / -1;
+  gap: 36px;
+}
+
+.contact-group-title {
+  margin-bottom: 12px;
+  color: var(--ash);
+  font-size: 13px;
+  font-weight: 620;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.contact-group ul {
+  border-top: 1px solid rgb(238 238 238 / 0.14);
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 84px;
+  border-bottom: 1px solid rgb(238 238 238 / 0.14);
+}
+
+.contact-icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: var(--graphite);
+  color: var(--paper);
+  transition:
+    background-color 0.4s var(--ease-out),
+    color 0.4s var(--ease-out);
+}
+
+.contact-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.contact-copy {
+  display: grid;
+  gap: 2px;
+  transition: translate 0.5s var(--ease-out);
+}
+
+.contact-copy b {
+  font-size: clamp(19px, 1.8vw, 26px);
+  font-weight: 620;
+  letter-spacing: -0.015em;
+}
+
+.contact-copy small {
+  color: var(--ash);
+  font-size: 14px;
+  font-weight: 480;
+}
+
+.contact-arrow {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-left: auto;
+  border-radius: 13px;
+  box-shadow: inset 0 0 0 1.5px rgb(238 238 238 / 0.22);
+  transition:
+    background-color 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out);
+}
+
+.contact-arrow .arrow-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.contact-row:hover .contact-icon {
+  background: var(--blue);
+}
+
+.contact-row:hover .contact-copy {
+  translate: 8px 0;
+}
+
+.contact-row:hover .contact-arrow {
+  background: var(--red);
+  box-shadow: none;
+}
+
+/* ---------- Columns ---------- */
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 40px var(--grid-gap);
+  margin-top: clamp(80px, 9vw, 140px);
+  padding-top: 28px;
+  border-top: 1px solid rgb(238 238 238 / 0.14);
+}
+
+.footer-col-title {
+  margin-bottom: 16px;
+  color: var(--ash);
+  font-size: 13px;
+  font-weight: 620;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer-links li + li {
+  margin-top: 8px;
+}
+
+.footer-links a {
+  color: rgb(238 238 238 / 0.86);
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: var(--white);
+}
+
+.footer-col--branch p:not(.footer-col-title) {
+  max-width: 28ch;
+  margin-top: 14px;
+  color: rgb(238 238 238 / 0.86);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.footer-emblem {
+  width: 64px;
+  color: var(--ash);
+}
+
+.footer-clock {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.footer-clock > span {
+  color: var(--ash);
+  font-size: 13px;
+  font-weight: 560;
+}
+
+.clock {
+  color: var(--paper);
+  font-size: 44px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 620;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .clock-colon {
+    animation: blink 2s steps(1) infinite;
+  }
+}
+
+.footer-col--end {
+  align-self: start;
+  justify-self: end;
+}
+
+.to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 16px;
+  font-weight: 560;
+}
+
+.to-top-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: inset 0 0 0 1.5px rgb(238 238 238 / 0.24);
+  transition:
+    background-color 0.5s var(--ease-out),
+    color 0.5s var(--ease-out),
+    box-shadow 0.5s var(--ease-out);
+}
+
+.to-top:hover .to-top-icon {
+  background: var(--paper);
+  box-shadow: none;
+  color: var(--ink);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: clamp(56px, 7vw, 96px);
+  /* leaves room for the fixed page tab in the corner */
+  padding-block: 26px 34px;
+  padding-right: clamp(48px, 5vw, 80px);
+  border-top: 1px solid rgb(238 238 238 / 0.14);
+  color: var(--ash);
+  font-size: 14px;
+}
+
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--paper);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.footer-brand .logo {
+  width: auto;
+  height: 46px;
+}
+
+@media (max-width: 900px) {
+  .footer-intro,
+  .contact-groups {
+    grid-column: 1 / -1;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer-col--end {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer-grid {
+    gap: 36px 16px;
+  }
+
+  .footer-col--branch {
+    grid-column: 1 / -1;
+    order: 1;
+  }
+
+  .footer-col--end {
+    order: 2;
+  }
+
+  .clock {
+    font-size: 36px;
+  }
+
+  .contact-row {
+    min-height: 76px;
+    gap: 14px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

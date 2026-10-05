@@ -1,27 +1,85 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { brandLogoSrc, navigation } from "@/data/site";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { navigation, site } from "@/data/site";
+import { ActionLink } from "./ActionLink";
+import { Chevron } from "./BrandShapes";
+import { Logo } from "./Logo";
+
+const DESKTOP_QUERY = "(min-width: 1081px)";
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [activeHref, setActiveHref] = useState<string | null>(null);
   const menuToggleRef = useRef<HTMLButtonElement>(null);
   const firstMenuLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24);
-    handleScroll();
+    let lastY = window.scrollY;
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      setScrolled(y > 24);
+      if (Math.abs(y - lastY) > 8) {
+        // Tuck the header away while reading down, bring it back on scroll up.
+        setHidden(y > lastY && y > 560);
+        lastY = y;
+      }
+    };
+
+    const handleScroll = () => {
+      if (!frame) {
+        frame = requestAnimationFrame(update);
+      }
+    };
+
+    update();
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const targets = ["#top", ...navigation.map((item) => item.href)]
+      .map((selector) => document.querySelector<HTMLElement>(selector))
+      .filter((element): element is HTMLElement => element !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const href = `#${entry.target.id}`;
+            setActiveHref(href === "#top" ? null : href);
+          }
+        }
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
     document.body.classList.toggle("menu-open", menuOpen);
+    const background = [
+      document.getElementById("main-content"),
+      document.querySelector<HTMLElement>(".site-footer"),
+    ];
+    background.forEach((element) => {
+      if (element) {
+        element.inert = menuOpen;
+      }
+    });
 
     if (!menuOpen) {
-      return () => document.body.classList.remove("menu-open");
+      return;
     }
 
     firstMenuLinkRef.current?.focus();
@@ -33,63 +91,71 @@ export function Header() {
       }
     };
 
-    const handleResize = () => {
-      if (window.innerWidth > 1180) {
+    const desktop = window.matchMedia(DESKTOP_QUERY);
+    const handleViewportChange = () => {
+      if (desktop.matches) {
         setMenuOpen(false);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("resize", handleResize);
+    desktop.addEventListener("change", handleViewportChange);
 
     return () => {
       document.body.classList.remove("menu-open");
+      background.forEach((element) => {
+        if (element) {
+          element.inert = false;
+        }
+      });
       window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("resize", handleResize);
+      desktop.removeEventListener("change", handleViewportChange);
     };
   }, [menuOpen]);
 
+  const headerClassName = [
+    "site-header",
+    scrolled && "is-scrolled",
+    hidden && !menuOpen && "is-hidden",
+    menuOpen && "is-menu-open",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <header
-      className={`site-header${scrolled ? " site-header--scrolled" : ""}`}
-    >
-      <div className="header-inner shell">
+    <header className={headerClassName}>
+      <div className="header-bar">
         <a
           className="brand"
           href="#top"
           aria-label="Студенческий совет — на главную"
+          onClick={() => setMenuOpen(false)}
         >
-          {brandLogoSrc ? (
-            <Image
-              className="brand-logo"
-              src={brandLogoSrc}
-              width={44}
-              height={44}
-              alt=""
-              aria-hidden="true"
-            />
-          ) : (
-            <span className="brand-mark" aria-hidden="true">
-              СС
-            </span>
-          )}
+          <Logo className="brand-logo" />
           <span className="brand-copy">
-            <strong>Студсовет</strong>
-            <small>Филиал МГУ · Душанбе</small>
+            <strong>{site.shortName}</strong>
+            <small>{site.branchShort}</small>
           </span>
         </a>
 
         <nav className="desktop-nav" aria-label="Основная навигация">
           {navigation.map((item) => (
-            <a key={item.href} href={item.href}>
+            <a
+              key={item.href}
+              href={item.href}
+              aria-current={activeHref === item.href ? "true" : undefined}
+            >
               {item.label}
+              <Chevron className="nav-chevron" />
             </a>
           ))}
         </nav>
 
-        <a className="header-cta" href="#feedback">
-          Предложить идею
-        </a>
+        <div className="header-cta">
+          <ActionLink href="#idea" tone="paper" size="sm">
+            Предложить идею
+          </ActionLink>
+        </div>
 
         <button
           ref={menuToggleRef}
@@ -111,12 +177,14 @@ export function Header() {
         aria-hidden={!menuOpen}
         inert={!menuOpen ? true : undefined}
       >
-        <nav className="shell" aria-label="Мобильная навигация">
+        <Logo className="mobile-menu-logo" tone="light" />
+        <nav className="mobile-menu-nav shell" aria-label="Мобильная навигация">
           {navigation.map((item, index) => (
             <a
               ref={index === 0 ? firstMenuLinkRef : undefined}
               key={item.href}
               href={item.href}
+              style={{ "--i": index } as CSSProperties}
               onClick={() => setMenuOpen(false)}
             >
               <span>{String(index + 1).padStart(2, "0")}</span>
@@ -124,6 +192,14 @@ export function Header() {
             </a>
           ))}
         </nav>
+        <div className="mobile-menu-footer shell">
+          <div className="mobile-menu-cta" onClick={() => setMenuOpen(false)}>
+            <ActionLink href="#idea" tone="paper">
+              Предложить идею
+            </ActionLink>
+          </div>
+          <p className="mobile-menu-meta">{site.fullName}</p>
+        </div>
       </div>
     </header>
   );

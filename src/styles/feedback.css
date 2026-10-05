@@ -1,0 +1,161 @@
+/* ---------- Ideas: plans + "Есть идея?" ---------- */
+
+.idea {
+  isolation: isolate;
+  overflow: clip;
+  background: var(--blue-deep);
+  color: var(--paper);
+}
+
+/* Brandbook dividers: paper-cut logos cut off by the corners. */
+.idea-super {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+}
+
+.idea-super .logo {
+  position: absolute;
+  width: clamp(260px, 30vw, 520px);
+  height: auto;
+}
+
+.idea-super-a {
+  top: -16%;
+  right: -9%;
+  rotate: -45deg;
+}
+
+.idea-super-b {
+  bottom: -30%;
+  left: -15%;
+  rotate: 135deg;
+  opacity: 0.9;
+}
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 64px);
+  margin-top: clamp(48px, 6vw, 88px);
+}
+
+.plan h3 {
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--line-inverse);
+  font-size: clamp(26px, 2.6vw, 42px);
+  font-weight: 640;
+  letter-spacing: -0.02em;
+  text-shadow: var(--text-shadow-blue);
+}
+
+.plan ul {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.plan li {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-size: clamp(17px, 1.5vw, 22px);
+  font-weight: 460;
+  line-height: 1.32;
+}
+
+.plan .chevron {
+  width: 22px;
+  height: 11px;
+  translate: 0 -3px;
+}
+
+.idea-cta {
+  position: relative;
+  margin-top: clamp(80px, 10vw, 150px);
+  padding-top: clamp(40px, 5vw, 72px);
+  border-top: 2px solid var(--line-inverse);
+}
+
+.idea-title {
+  font-size: clamp(44px, 6.6vw, 112px);
+  font-weight: 660;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-shadow: var(--text-shadow-blue);
+}
+
+.idea-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 26px);
+  margin-top: clamp(28px, 3.4vw, 48px);
+}
+
+.idea-star {
+  width: clamp(40px, 4vw, 70px);
+  height: auto;
+  color: var(--paper);
+}
+
+.idea-star--small {
+  width: clamp(22px, 2.2vw, 38px);
+  margin: -48px 0 0 -10px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .idea-cta.is-in .idea-star {
+    animation: star-spin 2.2s var(--ease-out) both;
+  }
+
+  .idea-cta.is-in .idea-star--small {
+    animation-delay: 0.15s;
+  }
+}
+
+@keyframes star-spin {
+  from {
+    opacity: 0;
+    rotate: -70deg;
+    scale: 0.4;
+  }
+}
+
+.idea-note {
+  max-width: 40ch;
+  margin-top: clamp(24px, 3vw, 36px);
+  color: rgb(238 238 238 / 0.88);
+  font-size: clamp(18px, 1.7vw, 26px);
+  line-height: 1.38;
+}
+
+.idea-note b {
+  color: var(--white);
+  font-weight: 660;
+}
+
+.idea-cta .btn {
+  margin-top: clamp(28px, 3.4vw, 44px);
+}
+
+@media (max-width: 900px) {
+  .plans {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .idea-super-b {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .idea-row .plate--xl {
+    padding: 0 22px;
+  }
+
+  .idea-cta .btn {
+    width: 100%;
+  }
+}

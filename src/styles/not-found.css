@@ -1,0 +1,72 @@
+.not-found {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: 100svh;
+  overflow: clip;
+  background: var(--blue);
+  color: var(--paper);
+}
+
+.not-found-super {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+}
+
+.not-found-super .logo {
+  position: absolute;
+  width: clamp(280px, 34vw, 560px);
+  height: auto;
+}
+
+.not-found-super .not-found-super-a {
+  top: -24%;
+  right: 10%;
+  width: clamp(200px, 22vw, 380px);
+  rotate: -135deg;
+}
+
+.not-found-super .not-found-super-b {
+  right: -10%;
+  bottom: -20%;
+  rotate: 45deg;
+}
+
+.not-found-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 28px;
+  padding-block: 96px;
+}
+
+.not-found .section-label {
+  --tab-bg: var(--paper);
+  --tab-fg: var(--blue);
+
+  color: rgb(238 238 238 / 0.86);
+}
+
+.not-found .section-tab {
+  width: 36px;
+  height: 56px;
+}
+
+.not-found h1 {
+  max-width: 12ch;
+  font-size: clamp(52px, 8vw, 132px);
+  font-weight: 660;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-shadow: var(--text-shadow-blue);
+}
+
+.not-found-inner > p:not(.section-label) {
+  max-width: 40ch;
+  color: rgb(238 238 238 / 0.88);
+  font-size: clamp(18px, 1.5vw, 22px);
+  line-height: 1.45;
+}

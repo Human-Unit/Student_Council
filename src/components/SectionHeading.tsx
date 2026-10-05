@@ -1,9 +1,14 @@
+import type { ReactNode } from "react";
+import { PageTabShape } from "./BrandShapes";
+
 type SectionHeadingProps = {
   index: string;
   eyebrow: string;
-  title: string;
+  title: ReactNode;
   titleId: string;
-  inverted?: boolean;
+  lead?: ReactNode;
+  /** Background the heading sits on. */
+  tone?: "paper" | "blue" | "ink";
 };
 
 export function SectionHeading({
@@ -11,15 +16,20 @@ export function SectionHeading({
   eyebrow,
   title,
   titleId,
-  inverted,
+  lead,
+  tone = "paper",
 }: SectionHeadingProps) {
   return (
-    <header
-      className={`section-heading${inverted ? " section-heading--inverted" : ""}`}
-    >
-      <p className="section-index">{index}</p>
-      <p className="section-eyebrow">{eyebrow}</p>
+    <header className={`section-heading section-heading--${tone}`} data-reveal>
+      <p className="section-label">
+        <span className="section-tab" aria-hidden="true">
+          <PageTabShape />
+          <span>{index}</span>
+        </span>
+        <span>{eyebrow}</span>
+      </p>
       <h2 id={titleId}>{title}</h2>
+      {lead && <p className="section-lead">{lead}</p>}
     </header>
   );
 }

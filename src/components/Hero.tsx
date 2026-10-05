@@ -1,46 +1,65 @@
-import { ArrowIcon } from "./ArrowIcon";
+import type { CSSProperties } from "react";
+import { site } from "@/data/site";
+import { tie } from "@/lib/typography";
+import { ActionLink } from "./ActionLink";
+import { Emblem } from "./BrandShapes";
+import { Logo } from "./Logo";
+
+const lines = ["Студенческий", "совет филиала", "МГУ в Душанбе"];
 
 export function Hero() {
   return (
     <section className="hero" id="top" aria-labelledby="hero-title">
-      <div className="hero-grid shell">
-        <div className="hero-kicker">
-          <span>Студенческое сообщество</span>
-          <span>Душанбе · 2026</span>
-        </div>
+      <div className="hero-backdrop" aria-hidden="true">
+        <div className="hero-glow" />
+        <div className="hero-swoosh" />
+      </div>
 
-        <div className="hero-heading-wrap">
-          <p className="hero-index" aria-hidden="true">
-            01
-          </p>
-          <h1 id="hero-title">
-            <span className="hero-title-primary">Студенческий совет</span>
-            <span className="hero-title-branch">филиала МГУ</span>
-            <em className="hero-title-city">в Душанбе</em>
+      <div className="hero-inner shell">
+        <div className="hero-copy">
+          <div className="hero-emblem">
+            <Emblem />
+            <p>
+              {"Филиал МГУ имени М.\xa0В.\xa0Ломоносова"}
+              <br />в городе Душанбе
+            </p>
+          </div>
+
+          <h1 className="hero-title" id="hero-title">
+            {lines.map((line, index) => (
+              <span className="hero-line" key={line}>
+                <span style={{ "--i": index } as CSSProperties}>
+                  {tie(line)}
+                </span>{" "}
+              </span>
+            ))}
           </h1>
-        </div>
 
-        <div className="hero-bottom">
-          <p className="hero-copy">
-            Инициативы студентов. Проекты. Возможности. Университетская жизнь.
-          </p>
+          <p className="hero-lead">{tie(site.tagline)}</p>
+
           <div className="hero-actions">
-            <a className="button button--primary" href="#feedback">
-              Предложить идею <ArrowIcon />
-            </a>
-            <a className="button button--text" href="#projects">
-              Наши проекты <ArrowIcon />
-            </a>
+            <ActionLink href="#idea" tone="paper">
+              Предложить идею
+            </ActionLink>
+            <ActionLink href="#join" tone="ghost">
+              Стать частью команды
+            </ActionLink>
           </div>
         </div>
 
-        <div className="hero-orbit" aria-hidden="true">
-          <span className="orbit orbit--one" />
-          <span className="orbit orbit--two" />
-          <span className="orbit-dot" />
-          <span className="orbit-label">МГУ</span>
+        <div className="hero-logo">
+          <Logo
+            tone="light"
+            shadow="blue"
+            title="Логотип Студенческого совета"
+          />
         </div>
       </div>
+
+      <a className="hero-scroll" href="#about">
+        <span>Листайте</span>
+        <span className="hero-scroll-line" aria-hidden="true" />
+      </a>
     </section>
   );
 }
