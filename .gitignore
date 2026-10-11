@@ -10,6 +10,8 @@
 
 # local env files
 .env*
+!.env.example
+!**/.env.example
 
 # typescript
 *.tsbuildinfo
@@ -25,3 +27,11 @@ yarn-error.log*
 
 # generated graph audit output
 /graphify-out/
+
+# Python backend local artifacts
+backend/.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/

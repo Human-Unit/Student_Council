@@ -61,6 +61,36 @@ npm run dev
 `NEXT_PUBLIC_SITE_URL` (например, `https://studsovet.example`) — от неё строятся
 ссылки на превью для соцсетей.
 
+## Full stack with Docker
+
+The backend foundation lives under [backend/](backend/README.md). The existing
+frontend remains at the repository root with its current design and content.
+
+```bash
+cp backend/.env.example backend/.env
+docker compose up --build
+```
+
+Windows PowerShell: `Copy-Item backend/.env.example backend/.env`, or copy the
+example manually. Replace development secrets before deploying. To create the
+first administrator, set both `FIRST_ADMIN_EMAIL` and `FIRST_ADMIN_PASSWORD` in
+`backend/.env`; bootstrap is idempotent and does not overwrite an existing user.
+
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+- Swagger (development): http://localhost:8000/docs
+- Health: http://localhost:8000/health
+
+`docker compose down` stops the stack and preserves PostgreSQL data.
+`docker compose down -v` also deletes the named database volume and its contents.
+The backend uses `db:5432` within Docker. Browser-facing
+`NEXT_PUBLIC_API_URL` defaults to `http://localhost:8000/api/v1` and is passed at
+frontend build time. The current frontend remains static; API integration is a
+separate task.
+
+See the [backend verification report](docs/reports/backend-foundation.md) for
+test results, isolated PostgreSQL smoke checks, and current local QA ports.
+
 ## Устройство
 
 ```
