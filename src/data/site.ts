@@ -7,7 +7,7 @@ import type { LogoPieceId } from "@/lib/brand";
 
 export type NavigationItem = {
   label: string;
-  href: `#${string}`;
+  href: `#${string}` | `/${string}`;
 };
 
 export const site = {
@@ -56,6 +56,7 @@ export const navigation: NavigationItem[] = [
   { label: "О нас", href: "#about" },
   { label: "Секторы", href: "#sectors" },
   { label: "Участие", href: "#join" },
+  { label: "Студенту", href: "/student" },
   { label: "Контакты", href: "#contacts" },
 ];
 

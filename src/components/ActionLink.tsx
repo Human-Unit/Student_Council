@@ -9,6 +9,8 @@ type ActionLinkProps = {
   children: ReactNode;
   tone?: ActionTone;
   size?: "md" | "sm";
+  download?: boolean;
+  label?: string;
 };
 
 export function ActionLink({
@@ -16,14 +18,18 @@ export function ActionLink({
   children,
   tone = "blue",
   size = "md",
+  download = false,
+  label,
 }: ActionLinkProps) {
   const external = /^https?:\/\//.test(href);
-  const direction = external ? "up-right" : "right";
+  const direction = download ? "down" : external ? "up-right" : "right";
 
   return (
     <a
       className={`btn btn--${tone}${size === "sm" ? " btn--sm" : ""}`}
       href={href}
+      download={download || undefined}
+      aria-label={label}
       {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
     >
       <span className="btn-label">{children}</span>

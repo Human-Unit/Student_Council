@@ -199,6 +199,24 @@ returning to desktop closes it. Preserve aria-expanded/controls and focus states
   project statuses. A missing record remains missing.
 - No visual redesign or API integration hidden inside infrastructure work.
 
+## Utility/detail page extension (Documents v1)
+
+The `/student` family extends this freeze without changing the landing chapters.
+Use the same shell, NT Somic, palette and rules, with a quieter blue opening,
+breadcrumbs and `SectionHeading` rendered as h1. Existing numbered pentagonal
+tabs, Star, Chevron, ActionLink, header/menu, footer, PageTab and reduced-motion
+behavior are reused. Do not replace shared primitives with utility-only copies.
+
+Utility navigation and document catalogs use asymmetric 12-column ruled rows:
+large number, editorial title/summary and actions; narrow layouts stack these in
+reading order. There is no card grid or new radius/color/shadow/font system.
+Document titles remain readable on mobile, including Cyrillic descenders.
+
+Detail pages pair preparation notes with a paper-proportioned preview area using
+existing white/paper/line/shadow tokens. A missing original gets an explicitly
+unavailable state, not reconstructed official text or a fake generator. Existing
+homepage chapters remain unchanged; only shared navigation gains `Студенту`.
+
 ## Reference evidence and QA
 
 Captured from the actual local production build at 1440×900, 1024×768,

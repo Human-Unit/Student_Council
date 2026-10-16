@@ -140,7 +140,7 @@
   background: rgb(16 16 16 / 0.05);
 }
 
-.desktop-nav a[aria-current="true"] {
+.desktop-nav a[aria-current] {
   opacity: 1;
 }
 
@@ -163,7 +163,7 @@
   color: var(--blue);
 }
 
-.desktop-nav a[aria-current="true"] .nav-chevron {
+.desktop-nav a[aria-current] .nav-chevron {
   opacity: 1;
   transform: none;
 }

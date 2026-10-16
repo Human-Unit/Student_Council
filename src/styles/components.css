@@ -380,7 +380,7 @@
   letter-spacing: 0.02em;
 }
 
-.section-heading h2 {
+.section-heading :is(h1, h2) {
   max-width: 17ch;
   margin-top: clamp(20px, 2.4vw, 32px);
   color: var(--heading-color);

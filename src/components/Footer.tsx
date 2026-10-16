@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { contactGroups, navigation, site } from "@/data/site";
 import { tie } from "@/lib/typography";
+import { navigationHref } from "@/lib/navigation";
 import { ArrowIcon } from "./ArrowIcon";
 import {
   Emblem,
@@ -11,7 +12,7 @@ import {
 import { DushanbeClock } from "./DushanbeClock";
 import { Logo } from "./Logo";
 
-export function Footer() {
+export function Footer({ home = true }: { home?: boolean }) {
   return (
     <footer
       className="site-footer"
@@ -91,7 +92,7 @@ export function Footer() {
             <ul className="footer-links">
               {navigation.map((item) => (
                 <li key={item.href}>
-                  <a href={item.href}>{item.label}</a>
+                  <a href={navigationHref(item.href, home)}>{item.label}</a>
                 </li>
               ))}
             </ul>

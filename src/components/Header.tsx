@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { navigation, site } from "@/data/site";
+import { navigationHref } from "@/lib/navigation";
 import { ActionLink } from "./ActionLink";
 import { Chevron } from "./BrandShapes";
 import { Logo } from "./Logo";
 
 const DESKTOP_QUERY = "(min-width: 1081px)";
 
-export function Header() {
+export function Header({ home = true }: { home?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -46,7 +47,11 @@ export function Header() {
   }, []);
 
   useEffect(() => {
+    if (!home) {
+      return;
+    }
     const targets = ["#top", ...navigation.map((item) => item.href)]
+      .filter((href) => href.startsWith("#"))
       .map((selector) => document.querySelector<HTMLElement>(selector))
       .filter((element): element is HTMLElement => element !== null);
 
@@ -64,7 +69,7 @@ export function Header() {
 
     targets.forEach((target) => observer.observe(target));
     return () => observer.disconnect();
-  }, []);
+  }, [home]);
 
   useEffect(() => {
     document.body.classList.toggle("menu-open", menuOpen);
@@ -127,7 +132,7 @@ export function Header() {
       <div className="header-bar">
         <a
           className="brand"
-          href="#top"
+          href={home ? "#top" : "/"}
           aria-label="Студенческий совет — на главную"
           onClick={() => setMenuOpen(false)}
         >
@@ -142,8 +147,14 @@ export function Header() {
           {navigation.map((item) => (
             <a
               key={item.href}
-              href={item.href}
-              aria-current={activeHref === item.href ? "true" : undefined}
+              href={navigationHref(item.href, home)}
+              aria-current={
+                !home && item.href === "/student"
+                  ? "page"
+                  : activeHref === item.href
+                    ? "true"
+                    : undefined
+              }
             >
               {item.label}
               <Chevron className="nav-chevron" />
@@ -152,7 +163,7 @@ export function Header() {
         </nav>
 
         <div className="header-cta">
-          <ActionLink href="#idea" tone="paper" size="sm">
+          <ActionLink href={navigationHref("#idea", home)} tone="paper" size="sm">
             Предложить идею
           </ActionLink>
         </div>
@@ -183,7 +194,8 @@ export function Header() {
             <a
               ref={index === 0 ? firstMenuLinkRef : undefined}
               key={item.href}
-              href={item.href}
+              href={navigationHref(item.href, home)}
+              aria-current={!home && item.href === "/student" ? "page" : undefined}
               style={{ "--i": index } as CSSProperties}
               onClick={() => setMenuOpen(false)}
             >
@@ -194,7 +206,7 @@ export function Header() {
         </nav>
         <div className="mobile-menu-footer shell">
           <div className="mobile-menu-cta" onClick={() => setMenuOpen(false)}>
-            <ActionLink href="#idea" tone="paper">
+            <ActionLink href={navigationHref("#idea", home)} tone="paper">
               Предложить идею
             </ActionLink>
           </div>

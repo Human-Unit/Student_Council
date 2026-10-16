@@ -3,7 +3,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.api.deps import SessionDep
-from app.api.v1 import auth, events, feedback, news, projects, users
+from app.api.v1 import auth, documents, events, feedback, news, projects, users
 
 router = APIRouter(prefix="/api/v1")
 
@@ -31,5 +31,6 @@ for child in (
     news.router,
     events.router,
     projects.router,
+    documents.router,
 ):
     router.include_router(child)

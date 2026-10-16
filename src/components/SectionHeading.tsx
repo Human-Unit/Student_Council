@@ -9,6 +9,7 @@ type SectionHeadingProps = {
   lead?: ReactNode;
   /** Background the heading sits on. */
   tone?: "paper" | "blue" | "ink";
+  as?: "h1" | "h2";
 };
 
 export function SectionHeading({
@@ -18,6 +19,7 @@ export function SectionHeading({
   titleId,
   lead,
   tone = "paper",
+  as: Heading = "h2",
 }: SectionHeadingProps) {
   return (
     <header className={`section-heading section-heading--${tone}`} data-reveal>
@@ -28,7 +30,7 @@ export function SectionHeading({
         </span>
         <span>{eyebrow}</span>
       </p>
-      <h2 id={titleId}>{title}</h2>
+      <Heading id={titleId}>{title}</Heading>
       {lead && <p className="section-lead">{lead}</p>}
     </header>
   );

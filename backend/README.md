@@ -124,14 +124,15 @@ see published content and can submit feedback without accounts.
 
 ## Endpoints
 
-| Resource | Public                                 | Protected                                |
-| -------- | -------------------------------------- | ---------------------------------------- |
-| Auth     | POST login, POST refresh               | GET me                                   |
-| Users    | None                                   | ADMIN list/get/create/patch/delete       |
-| Feedback | POST submission (receipt only)         | ADMIN/EDITOR list/get/PATCH status       |
-| News     | GET list, GET by slug (published only) | ADMIN/EDITOR create/PATCH/delete by UUID |
-| Events   | GET list, GET by UUID (published only) | ADMIN/EDITOR create/PATCH/delete by UUID |
-| Projects | GET list, GET by slug (published only) | ADMIN/EDITOR create/PATCH/delete by UUID |
+| Resource  | Public                                 | Protected                                |
+| --------- | -------------------------------------- | ---------------------------------------- |
+| Auth      | POST login, POST refresh               | GET me                                   |
+| Users     | None                                   | ADMIN list/get/create/patch/delete       |
+| Feedback  | POST submission (receipt only)         | ADMIN/EDITOR list/get/PATCH status       |
+| News      | GET list, GET by slug (published only) | ADMIN/EDITOR create/PATCH/delete by UUID |
+| Events    | GET list, GET by UUID (published only) | ADMIN/EDITOR create/PATCH/delete by UUID |
+| Projects  | GET list, GET by slug (published only) | ADMIN/EDITOR create/PATCH/delete by UUID |
+| Documents | GET list, GET by slug (published only) | ADMIN/EDITOR create/PATCH/delete by UUID |
 
 All resource routes use `/api/v1`. Collections return arrays and accept
 `limit=20&offset=0` (limit 1–100; offset >=0). No private feedback or drafts are
@@ -141,6 +142,14 @@ a timezone, and end time cannot precede start time.
 
 Errors use `{"detail": ...}` with 401/403/404/409/422 and generic 500 responses.
 Validation errors omit raw input to avoid reflecting secrets/private text.
+
+Documents use revision `0002` and sort by nonnegative `sort_order`, then slug.
+They store metadata and an optional stable DOCX URL, never file binaries.
+There is no startup seed, upload service, admin UI or generator. Public frontend
+integration is deferred; its current server catalog contains descriptions with
+unavailable originals. See [documents architecture](../docs/DOCUMENTS_ARCHITECTURE.md)
+before changing that boundary. Production still requires an approved migration
+and updated backend deployment; local tests do not mutate Neon.
 
 ## Tests and quality
 
