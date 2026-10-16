@@ -88,6 +88,13 @@ uvicorn app.main:app --reload
 `/health` actually queries PostgreSQL and returns 503 if the DB is unavailable.
 Docs and OpenAPI are disabled in production.
 
+Production PostgreSQL connections require TLS with certificate and hostname
+verification using system trust roots. Both the application and Alembic use
+`app/db/connection.py`; local development/test connections are unchanged. With
+Neon, securely configure a `postgresql+asyncpg` URL without libpq-only query
+parameters, using the pooled host for the application and the matching direct
+host for manual migrations. See the deployment guide above for details.
+
 ## First administrator
 
 Uncomment and set BOTH FIRST_ADMIN_EMAIL and FIRST_ADMIN_PASSWORD in the local

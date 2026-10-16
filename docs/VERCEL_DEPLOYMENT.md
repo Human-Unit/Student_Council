@@ -5,7 +5,8 @@ Docker runtime. See root README for `docker compose up --build` and local ports.
 
 ## Topology and project selection
 
-Use two Vercel projects connected to the same Git repository:
+Use two separate Vercel projects. For Git-based imports, both reference the same
+repository with these Git Root Directory settings:
 
 | Project  | Root Directory | Framework | Persistent storage          |
 | -------- | -------------- | --------- | --------------------------- |
@@ -53,6 +54,19 @@ Do not blindly copy a project link for the frontend into the backend directory.
 For repeated CLI deployment of a monorepo, select the appropriate project from
 root with `vercel link --repo`; its project setting owns the Root Directory.
 
+The current backend release instead uses an independent local link inside
+`backend/`, without automatic Git deployment or a project-level Root Directory.
+Its upload root is already the backend directory:
+
+```bash
+npx vercel deploy --prod --scope diamond-dogs2 --cwd backend
+```
+
+Do not deploy this CLI-only backend project from repository root. If Git
+auto-deployment is enabled later, set its Git Root Directory to `backend` and
+switch to the repository-root monorepo CLI workflow above; do not double-apply
+the backend path or overwrite the frontend's local link.
+
 ## Backend
 
 `backend/vercel.json` selects native FastAPI. Existing `backend/app/main.py`
@@ -61,8 +75,8 @@ Python file, legacy `builds` mapping or route rewrite is needed. `.python-versio
 selects supported Python 3.13, consistent with local Docker. Dependencies remain
 in pyproject.toml, without the test extra in production.
 
-No application module or database behavior is changed for deployment. In
-particular, imports/lifespan do not run migrations or bootstrap users. Docker's
+Production connections use a shared verified TLS context for both the application
+and Alembic. Imports/lifespan do not run migrations or bootstrap users. Docker's
 startup command is not Vercel's startup mechanism.
 
 Configure these environment names securely in the backend project's Production
@@ -100,19 +114,25 @@ Before any write/migration, have the owner confirm the target provider, project,
 database, region and intended environment. Do not log credentials to confirm it.
 Use a distinct preview/test database; never run smoke/downgrade tests on production.
 
-The current app expects a SQLAlchemy asyncpg URL (`postgresql+asyncpg` scheme).
-Marketplace connection strings may need provider-specific adaptation: preserve
-credentials and required TLS; do not pass libpq-only parameters such as sslmode
-blindly to asyncpg. Confirm the driver's supported TLS settings and certificate
-verification with the chosen provider before deployment. Do not disable TLS just
-to make connectivity pass.
+The app expects a SQLAlchemy asyncpg URL (`postgresql+asyncpg` scheme). For Neon,
+adapt the provider URL in memory: retain credentials, database and pooled host,
+change the scheme to `postgresql+asyncpg`, and remove libpq-only query parameters
+`sslmode` and `channel_binding`. Never print or save that adapted production URL.
+`app/db/connection.py` supplies `ssl.create_default_context()` whenever
+`APP_ENV=production`, shared by the application and Alembic. It requires a trusted
+certificate and matching hostname using system trust roots. Passing the string
+`ssl=verify-full` alone to asyncpg instead looks for a user PostgreSQL CA file;
+do not weaken verification to work around a missing file. Development/test
+connections keep their previous local behavior.
 
 Use the provider's supported pooling endpoint for scalable functions, and place
 the backend near its database. Existing SQLAlchemy sessions already pool per
 function instance; they do not impose a global connection cap across scaled
 instances. Confirm connection limits, TLS, asyncpg prepared-statement compatibility
-and pooler mode for the actual provider. This preparation is not proof of live
-provider compatibility; no database provider has been assumed.
+and pooler mode for the actual provider. Use the matching direct endpoint for the
+manual migration, injected only into the migration process; do not add an unused
+direct-URL variable to the deployed application. Record actual live checks in
+[the production deployment report](reports/backend-production-deployment.md).
 
 Migrations are a manual serialized release step from a trusted environment with
 the backend dependencies and the confirmed production secrets injected securely:

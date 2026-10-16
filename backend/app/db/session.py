@@ -9,10 +9,13 @@ from sqlalchemy.ext.asyncio import (
 )
 
 from app.core.config import Settings
+from app.db.connection import database_connect_args
 
 
 def session_factory(settings: Settings) -> tuple[AsyncEngine, async_sessionmaker[AsyncSession]]:
-    engine = create_async_engine(settings.database_url, pool_pre_ping=True)
+    engine = create_async_engine(
+        settings.database_url, pool_pre_ping=True, connect_args=database_connect_args(settings)
+    )
     return engine, async_sessionmaker(engine, expire_on_commit=False)
 
 
