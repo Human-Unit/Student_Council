@@ -1,0 +1,8 @@
+backend/
+docs/
+graphify-out/
+node_modules/
+.next/
+.git/
+.env*
+*.tsbuildinfo

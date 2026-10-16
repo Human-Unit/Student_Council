@@ -28,6 +28,9 @@ yarn-error.log*
 # generated graph audit output
 /graphify-out/
 
+# Local Vercel project links, build artifacts and downloaded environment files
+.vercel/
+
 # Python backend local artifacts
 backend/.venv/
 __pycache__/

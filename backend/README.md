@@ -1,5 +1,9 @@
 # Student Council API
 
+For production Vercel preparation, project roots, secure environment setup and
+the explicit migration gate, see [../docs/VERCEL_DEPLOYMENT.md](../docs/VERCEL_DEPLOYMENT.md).
+Compose below remains the local full-stack workflow.
+
 ## Stack
 
 FastAPI supplies HTTP routing and generated Swagger/OpenAPI. PostgreSQL stores

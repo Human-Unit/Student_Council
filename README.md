@@ -54,12 +54,30 @@ npm run dev
   исходник: github.com/nnttttyyppee/NT-Somic).
 - Эмблема филиала — `public/brand/emblem.webp`.
 
-## Деплой
+## Production deployment
 
-Проще всего — [Vercel](https://vercel.com): импортировать репозиторий, сборка
-настроится автоматически. После подключения домена задайте переменную окружения
-`NEXT_PUBLIC_SITE_URL` (например, `https://studsovet.example`) — от неё строятся
-ссылки на превью для соцсетей.
+На Vercel используются два отдельных проекта: Next.js из корня репозитория и
+FastAPI из `backend/`. PostgreSQL — отдельная управляемая БД; Docker Compose
+остаётся локальным способом запуска. Сначала проверьте существующие проекты,
+затем привяжите нужный проект и выполните `npx vercel deploy --prod`.
+
+Frontend: `NEXT_PUBLIC_SITE_URL`, позднее `NEXT_PUBLIC_API_URL` — только реальные
+адреса, без секретов. Backend: `APP_ENV`, `DATABASE_URL`, `JWT_SECRET_KEY`,
+`JWT_ALGORITHM`, `ACCESS_TOKEN_EXPIRE_MINUTES`, `REFRESH_TOKEN_EXPIRE_DAYS`,
+`CORS_ORIGINS`. Секреты задаются в настройках окружения Vercel, не в репозитории.
+До деплоя backend подтвердите целевую БД и явно выполните из `backend/`
+`alembic upgrade head`; импорт приложения не запускает миграции.
+
+Подробности: [инструкция Vercel](docs/VERCEL_DEPLOYMENT.md),
+[фактические результаты и адреса](docs/reports/design-freeze-and-vercel.md).
+Frontend пока не переведён на API. Локальные команды и адреса — ниже.
+
+## Design baseline
+
+Перед существенными изменениями UI прочитайте
+[docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) и корневой `AGENTS.md`.
+Текущий дизайн — намеренная основа; новая функция не означает редизайн сайта.
+Реальные [референсные скриншоты](docs/design-reference/) сохранены отдельно.
 
 ## Full stack with Docker
 
