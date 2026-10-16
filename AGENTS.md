@@ -135,6 +135,15 @@ Never add copied binaries, unknown vendor assets, or unlicensed font files.
 
 Preserve the existing Student Council brand system.
 
+The current frontend is an intentional baseline, not a placeholder. Before
+substantial UI work, read `docs/DESIGN_SYSTEM.md` and inspect the current
+components, brand primitives and tokens. Reuse them; do not introduce a second
+design system. New pages must remain visually compatible with the existing site.
+A new feature is not permission to redesign existing unrelated sections.
+For UI changes, open/render the affected flows in a browser, check desktop and
+mobile, and report explicitly if browser QA is unavailable. Never invent people,
+university claims, contacts, statistics, URLs or project statuses.
+
 - Reuse `Logo`, brand helpers, semantic tokens, and existing visual primitives before creating replacements.
 - Do not hardcode new brand colors when a token exists.
 - Do not redraw approved logos unless the task explicitly requires an authorized variant.
