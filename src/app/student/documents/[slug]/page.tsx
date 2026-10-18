@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ActionLink } from "@/components/ActionLink";
-import { Chevron, Star } from "@/components/BrandShapes";
+import { Star } from "@/components/BrandShapes";
 import { DocumentDownload } from "@/components/student/DocumentList";
+import { FieldList } from "@/components/student/FieldList";
 import { StudentIntro } from "@/components/student/StudentIntro";
 import { studentCopy } from "@/data/student";
 import { getDocument, getDocuments } from "@/lib/documents";
@@ -63,25 +64,21 @@ export default async function DocumentPage({ params }: Props) {
           {information.length > 0 ? (
             <>
               <h2>{studentCopy.informationTitle}</h2>
-              <ul className="student-information">
-                {information.map((field) => (
-                  <li key={field}>
-                    <Chevron />
-                    {tie(field)}
-                  </li>
-                ))}
-              </ul>
+              <FieldList fields={information} />
               <p className="student-note">{tie(studentCopy.informationNote)}</p>
             </>
           ) : null}
-          <div className="student-detail-download">
+          <div className="student-detail-actions">
             <DocumentDownload document={document} />
+            <ActionLink href="/student/documents" tone="ink" size="sm">
+              {studentCopy.backToDocuments}
+            </ActionLink>
           </div>
-          <ActionLink href="/student/documents" tone="ink">
-            {studentCopy.backToDocuments}
-          </ActionLink>
         </div>
-        <figure className="student-preview">
+        <figure
+          className="student-preview"
+          data-empty={preview ? undefined : ""}
+        >
           <figcaption className="section-label">
             {studentCopy.previewTitle}
           </figcaption>

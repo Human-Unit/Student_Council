@@ -1,3 +1,5 @@
+import type { FieldKey } from "@/data/fields";
+
 export type DocumentCategory =
   "EXPLANATION" | "APPLICATION" | "CERTIFICATE" | "OTHER";
 
@@ -37,10 +39,10 @@ export const studentCopy = {
   informationTitle: "Что понадобится",
   informationNote:
     "Поля перечислены в том порядке, в котором они идут в бланке.",
+  exampleLabel: "Пример",
   usageTitle: "Когда используется",
   downloadTitle: "Скачать образец DOCX",
   backToDocuments: "Все документы",
-  openDocument: "Подробнее",
   preparationLabel: "Перед заполнением",
   sourceLabel: "Исходный файл",
   notFoundTitle: "Документ не найден",
@@ -57,9 +59,9 @@ export const studentServices = [
   {
     title: "Практика",
     summary:
-      "Раздел для материалов по практике. Подтверждённые материалы пока не добавлены.",
-    href: null,
-    action: "Скоро",
+      "Как вести дневник практики: титульный лист, примеры записей и шаблоны.",
+    href: "/student/practice",
+    action: "Открыть",
   },
   {
     title: "Расписание",
@@ -149,52 +151,69 @@ export const documentCatalog: readonly StudentDocument[] = [
   },
 ];
 
-/** Fields in the order they appear in each original. Not a form schema. */
-export const documentGuidance: Record<string, readonly string[]> = {
+/**
+ * Fields in the order they appear on each original, by key into
+ * `studentFields`. Checked against the DOCX files; still not a form schema.
+ */
+export const documentGuidance: Record<string, readonly FieldKey[]> = {
   "missed-classes-explanation": [
-    "Курс и направление подготовки",
-    "Фамилия, имя и отчество полностью",
-    "Дата пропуска занятий",
-    "Дата и подпись",
-    "Телефон",
+    "course",
+    "direction",
+    "fullName",
+    "absenceDate",
+    "date",
+    "signature",
+    "phone",
   ],
   "absence-certificate-acceptance": [
-    "Курс и направление подготовки",
-    "Фамилия, имя и отчество полностью",
-    "Даты начала и окончания отсутствия",
-    "Причина отсутствия",
-    "Дата и подпись",
-    "Телефон",
+    "course",
+    "direction",
+    "fullName",
+    "periodStart",
+    "periodEnd",
+    "absenceReason",
+    "date",
+    "signature",
+    "phone",
   ],
   "class-release-application": [
-    "Курс и направление подготовки",
-    "Фамилия, имя и отчество полностью",
-    "Даты начала и окончания освобождения",
-    "Причина освобождения",
-    "Дата и подпись",
-    "Телефон",
+    "course",
+    "direction",
+    "fullName",
+    "periodStart",
+    "periodEnd",
+    "releaseReason",
+    "date",
+    "signature",
+    "phone",
   ],
   "tuition-payment-deferment": [
-    "Курс и направление подготовки",
-    "Фамилия, имя и отчество полностью",
-    "Первая или вторая половина оплаты",
-    "Дата, до которой нужна отсрочка",
-    "Причина отсрочки",
-    "Дата и подпись",
-    "Телефон",
+    "course",
+    "direction",
+    "fullName",
+    "paymentPart",
+    "deferUntil",
+    "deferReason",
+    "date",
+    "signature",
+    "phone",
   ],
   "graduation-certificate": [
-    "Год выпуска и направление подготовки",
-    "Фамилия, имя и отчество полностью",
-    "Магистратура, в которую вы поступаете",
-    "Подпись и дата",
-    "Мобильный телефон",
+    "graduationYear",
+    "direction",
+    "fullName",
+    "masterProgram",
+    "signature",
+    "date",
+    "phone",
   ],
   "student-status-certificate": [
-    "Курс и направление подготовки",
-    "Фамилия, имя и отчество полностью",
-    "Место, куда нужна справка",
-    "Подпись и дата",
-    "Мобильный телефон",
+    "course",
+    "direction",
+    "fullName",
+    "recipient",
+    "signature",
+    "date",
+    "phone",
   ],
 };

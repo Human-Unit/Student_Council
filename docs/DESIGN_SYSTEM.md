@@ -219,6 +219,22 @@ original gets an explicitly unavailable state, not reconstructed official text
 or a fake generator. Existing
 homepage chapters remain unchanged; only shared navigation gains `Студенту`.
 
+### Rows, practice page and narrow screens (Practice v1)
+
+- Ruled rows are one tap target: the title link is stretched over the row, an
+  arrow tile replaces separate "Подробнее" buttons, and facts (category, DOCX
+  availability) are small meta chips above the title. Real downloads sit above
+  the stretched link. Row focus is outlined on the whole row.
+- ≤760: rows become number + arrow on one line, then meta, title and summary.
+  The fixed PageTab is hidden on `/student` pages because it covers running
+  text; the empty A4 preview is hidden when no original exists.
+- ≤640: the breadcrumb trail becomes one "← parent" link.
+- ≤560: intro star hidden, tighter intro, h1 `clamp(32px, 9.4vw, 44px)`.
+- Practice: in-intro contents (4 → 2 → 1 columns), guide rules with the roof
+  chevron, weak/strong example cards, a paper title-page map with highlighted
+  fields (A4 ratio from 561px up), and a real `<table>` of diary entries that
+  restyles to stacked entries at ≤760. No new tokens, fonts or icon family.
+
 ## Reference evidence and QA
 
 Captured from the actual local production build at 1440×900, 1024×768,

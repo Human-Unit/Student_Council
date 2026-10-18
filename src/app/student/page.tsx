@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { ActionLink } from "@/components/ActionLink";
 import { StudentIntro } from "@/components/student/StudentIntro";
+import { rowNumber, StudentRow } from "@/components/student/StudentRows";
 import { studentCopy, studentServices } from "@/data/student";
 import { tie } from "@/lib/typography";
 
@@ -36,22 +36,14 @@ export default function StudentPage() {
       >
         <ol className="student-rows">
           {studentServices.map((service, index) => (
-            <li className="student-row" key={service.title}>
-              <span className="student-row-number" aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div className="student-row-body">
-                <h2>{service.title}</h2>
-                <p>{tie(service.summary)}</p>
-              </div>
-              <div className="student-row-actions">
-                {service.href ? (
-                  <ActionLink href={service.href}>{service.action}</ActionLink>
-                ) : (
-                  <p className="student-unavailable">{service.action}</p>
-                )}
-              </div>
-            </li>
+            <StudentRow
+              key={service.title}
+              number={rowNumber(index)}
+              href={service.href}
+              title={service.title}
+              summary={tie(service.summary)}
+              meta={service.href ? [] : [service.action]}
+            />
           ))}
         </ol>
       </section>

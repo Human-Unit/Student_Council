@@ -138,10 +138,40 @@ This task does not deploy or migrate production. To release the API later:
 The static student pages can be released independently of the API. Pushing
 source does not authorize production migration or seeding.
 
+## Field registry and the future generator
+
+`src/data/fields.ts` is the single registry of student input: key, label, type,
+required, hint, optional neutral example, options, maxLength and `manual` for
+hand-written parts (signatures). Document guidance (`documentGuidance`) and the
+practice title page reference fields by key; tests fail on unknown keys.
+
+`src/lib/templates.ts` holds pure helpers shared by previews and a generator:
+`parseTemplate`, `templateKeys`, `fillTemplate` and `validateValues`. Tags use
+`{fieldKey}`, the default delimiter of DOCX templating tools, so approved DOCX
+originals can be tagged with the same keys. The planned flow:
+
+1. a form built from `FieldSpec[]` (no new schema format);
+2. `validateValues` on the client and again on the server;
+3. a backend endpoint fills a copy of the approved DOCX and returns it;
+4. no student input is stored unless that is decided and documented separately.
+
+`TitlePagePreview` already accepts `values`, so the same component can show a
+student's filled title page. `{institution}` is the verified branch name from
+`site.ts`, not input.
+
+## Practice diary (`/student/practice`)
+
+Content lives in `src/data/practice.ts`: guide rules, a weak/strong example, the
+title-page layout (`titlePageLines` with `{key}` tags), an illustrative diary
+table and the template list. The page says it is an example, not an official
+form. Both templates have `template_url: null` until approved originals exist;
+the same unavailable state as documents is shown, never a guessed path.
+
 ## Explicit exclusions and verification
 
 **Admin UI, authentication UI, uploads and online DOCX generator are not
-implemented.** Practice remains coming soon; no schedule URL is invented.
+implemented.** Practice has guidance pages without downloadable originals; no
+schedule URL is invented.
 Feedback/news/events frontend integrations are untouched.
 
 A later generator should add a verified form schema, fill a copy of an approved
@@ -151,7 +181,8 @@ never overwrite the source template. No student inputs are collected now.
 Run frontend state tests with the existing compiler and Node's built-in runner:
 `node --test tests/*.test.cjs`. They cover 0/1/5/20 records, byte-identical
 originals and previews, download names and response headers, the unavailable
-state and the server/navigation boundary without adding a test framework. Backend pytest covers publication/RBAC/validation/conflicts/order
+state, the field registry, template helpers and the server/navigation
+boundary without adding a test framework. Backend pytest covers publication/RBAC/validation/conflicts/order
 and isolated migration round-trip/offline PostgreSQL SQL generation. Browser QA
 and actual runtime limitations are recorded in the implementation reports
 ([v1](reports/student-documents-v1.md), [v2](reports/student-documents-v2.md)).

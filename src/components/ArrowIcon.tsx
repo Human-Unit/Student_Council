@@ -1,7 +1,8 @@
-type ArrowDirection = "right" | "up-right" | "up" | "down";
+type ArrowDirection = "right" | "left" | "up-right" | "up" | "down";
 
 const rotation: Record<ArrowDirection, number> = {
   right: 0,
+  left: 180,
   "up-right": -45,
   up: -90,
   down: 90,

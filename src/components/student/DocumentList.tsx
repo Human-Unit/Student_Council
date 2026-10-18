@@ -6,8 +6,11 @@ import {
 } from "@/data/student";
 import { downloadName } from "@/lib/template-files";
 import { tie } from "@/lib/typography";
+import { rowNumber, StudentRow } from "./StudentRows";
 
-export function DocumentDownload({ document }: { document: StudentDocument }) {
+type Downloadable = { title: string; template_url: string | null };
+
+export function DocumentDownload({ document }: { document: Downloadable }) {
   return document.template_url ? (
     <ActionLink
       href={document.template_url}
@@ -38,32 +41,22 @@ export function DocumentList({
   return (
     <ol className="student-rows document-list">
       {documents.map((document, index) => (
-        <li className="student-row" key={document.slug}>
-          <span className="student-row-number" aria-hidden="true">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <div className="student-row-body">
-            <h2>
-              <a href={`/student/documents/${document.slug}`}>
-                {tie(document.short_title ?? document.title)}
-              </a>
-            </h2>
-            <p>{tie(document.summary)}</p>
-          </div>
-          <div className="student-row-actions">
-            <span className="section-label">
-              {documentCategoryLabels[document.category]}
-            </span>
-            <ActionLink
-              href={`/student/documents/${document.slug}`}
-              size="sm"
-              label={`${studentCopy.openDocument}: ${document.title}`}
-            >
-              {studentCopy.openDocument}
-            </ActionLink>
+        <StudentRow
+          key={document.slug}
+          number={rowNumber(index)}
+          href={`/student/documents/${document.slug}`}
+          label={document.short_title ? document.title : undefined}
+          title={tie(document.short_title ?? document.title)}
+          summary={tie(document.summary)}
+          meta={[
+            documentCategoryLabels[document.category],
+            document.template_url ? "DOCX" : studentCopy.unavailableDownload,
+          ]}
+        >
+          {document.template_url ? (
             <DocumentDownload document={document} />
-          </div>
-        </li>
+          ) : null}
+        </StudentRow>
       ))}
     </ol>
   );
