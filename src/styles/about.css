@@ -406,14 +406,13 @@
 }
 
 @media (max-width: 900px) {
-  .about-main,
-  .bridge {
+  .about-main {
     grid-column: 1 / -1;
   }
 
+  /* Stacked under the text, the diagram only repeats the statement above. */
   .bridge {
-    justify-self: start;
-    padding-right: 0;
+    display: none;
   }
 }
 
@@ -425,10 +424,9 @@
     gap: 28px;
   }
 
+  /* Without connector lines the logo no longer labels anything. */
   .dir-logo {
-    order: -1;
-    width: 160px;
-    padding: 36px 44px 28px;
+    display: none;
   }
 
   .dir-list--left {

@@ -1,18 +1,28 @@
-import { ActionLink } from "@/components/ActionLink";
-import {
-  documentCategoryLabels,
-  studentCopy,
-  type StudentDocument,
-} from "@/data/student";
+import { ActionLink, type ActionTone } from "@/components/ActionLink";
+import { ArrowIcon } from "@/components/ArrowIcon";
+import { studentCopy, type StudentDocument } from "@/data/student";
 import { downloadName } from "@/lib/template-files";
 import { tie } from "@/lib/typography";
+import { rowNumber, StudentRow } from "./StudentRows";
 
-export function DocumentDownload({ document }: { document: StudentDocument }) {
+type Downloadable = { title: string; template_url: string | null };
+
+/** Primary download button; a document without an original says so. */
+export function DocumentDownload({
+  document,
+  tone = "blue",
+  size = "sm",
+}: {
+  document: Downloadable;
+  tone?: ActionTone;
+  size?: "md" | "sm";
+}) {
   return document.template_url ? (
     <ActionLink
       href={document.template_url}
       download={downloadName(document)}
-      size="sm"
+      tone={tone}
+      size={size}
       label={`${studentCopy.downloadTitle}: ${document.title}`}
     >
       {studentCopy.downloadTitle}
@@ -38,32 +48,27 @@ export function DocumentList({
   return (
     <ol className="student-rows document-list">
       {documents.map((document, index) => (
-        <li className="student-row" key={document.slug}>
-          <span className="student-row-number" aria-hidden="true">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <div className="student-row-body">
-            <h2>
-              <a href={`/student/documents/${document.slug}`}>
-                {tie(document.short_title ?? document.title)}
-              </a>
-            </h2>
-            <p>{tie(document.summary)}</p>
-          </div>
-          <div className="student-row-actions">
-            <span className="section-label">
-              {documentCategoryLabels[document.category]}
-            </span>
-            <ActionLink
-              href={`/student/documents/${document.slug}`}
-              size="sm"
-              label={`${studentCopy.openDocument}: ${document.title}`}
+        <StudentRow
+          key={document.slug}
+          number={rowNumber(index)}
+          href={`/student/documents/${document.slug}`}
+          label={document.short_title ? document.title : undefined}
+          title={tie(document.short_title ?? document.title)}
+          summary={tie(document.summary)}
+          meta={document.template_url ? [] : [studentCopy.unavailableDownload]}
+        >
+          {document.template_url ? (
+            <a
+              className="text-link student-row-download"
+              href={document.template_url}
+              download={downloadName(document)}
+              aria-label={`${studentCopy.downloadTitle}: ${document.title}`}
             >
-              {studentCopy.openDocument}
-            </ActionLink>
-            <DocumentDownload document={document} />
-          </div>
-        </li>
+              {studentCopy.downloadShort}
+              <ArrowIcon direction="down" />
+            </a>
+          ) : null}
+        </StudentRow>
       ))}
     </ol>
   );

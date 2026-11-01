@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { ArrowIcon } from "@/components/ArrowIcon";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Star } from "@/components/BrandShapes";
 import { tie } from "@/lib/typography";
@@ -12,13 +13,22 @@ export function StudentIntro({
   index = "01",
   eyebrow,
   breadcrumbs,
+  children,
 }: {
   title: ReactNode;
   lead: string;
   index?: string;
   eyebrow: string;
   breadcrumbs: Breadcrumb[];
+  /** Optional content under the heading, e.g. an in-page table of contents. */
+  children?: ReactNode;
 }) {
+  // Narrow screens show one "back" link instead of a wrapping trail.
+  const parent = breadcrumbs.findLast((crumb) => crumb.href) ?? {
+    label: "Главная",
+    href: "/",
+  };
+
   return (
     <section
       className="student-intro"
@@ -43,6 +53,10 @@ export function StudentIntro({
               </li>
             ))}
           </ol>
+          <a className="student-back" href={parent.href}>
+            <ArrowIcon direction="left" />
+            {parent.label}
+          </a>
         </nav>
         <SectionHeading
           as="h1"
@@ -53,6 +67,7 @@ export function StudentIntro({
           lead={tie(lead)}
           tone="blue"
         />
+        {children}
         <Star className="student-intro-star" />
       </div>
     </section>

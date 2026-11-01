@@ -772,21 +772,9 @@
 }
 
 @media (max-width: 560px) {
+  /* On phones the cards carry the sector colour; the scene illustrations
+     add a screen of scrolling each without new information. */
   .sector-visual {
-    aspect-ratio: 1.15;
-  }
-
-  .cam-corner--tl,
-  .cam-corner--tr {
-    top: 64px;
-  }
-
-  .cam-corner--bl,
-  .cam-corner--br {
-    bottom: 58px;
-  }
-
-  .sector-actions .btn {
-    width: 100%;
+    display: none;
   }
 }

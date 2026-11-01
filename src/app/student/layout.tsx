@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { PageTab } from "@/components/PageTab";
 import "@/styles/student.css";
+import "@/styles/practice.css";
 
 export default function StudentLayout({ children }: { children: ReactNode }) {
   return (

@@ -10,7 +10,6 @@ import { Join } from "@/components/Join";
 import { PageTab } from "@/components/PageTab";
 import { Sectors } from "@/components/Sectors";
 import { Team } from "@/components/Team";
-import { Ticker } from "@/components/Ticker";
 
 export default function Home() {
   return (
@@ -22,7 +21,6 @@ export default function Home() {
       <Header />
       <main id="main-content">
         <Hero />
-        <Ticker />
         <About />
         <Directions />
         <Sectors />

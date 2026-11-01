@@ -1,3 +1,5 @@
+import type { FieldKey } from "@/data/fields";
+
 export type DocumentCategory =
   "EXPLANATION" | "APPLICATION" | "CERTIFICATE" | "OTHER";
 
@@ -15,66 +17,54 @@ export type StudentDocument = {
 
 export const studentCopy = {
   title: "Студенту",
-  heading: "Полезное",
-  headingAccent: "без поиска по старым чатам",
-  lead: "Документы, практика и студенческие сервисы — в одном разделе.",
+  heading: "Бланки и памятки",
+  lead: "Заявления, справки и объяснительные в DOCX и памятка по дневнику практики.",
   documentsTitle: "Документы",
   documentsLead:
-    "Заявления, объяснительные и справки: образцы в DOCX и данные, которые понадобятся для заполнения.",
-  sourceNotice:
-    "Оригиналы образцов пока не добавлены. Скачивание и предпросмотр недоступны.",
+    "Бланки заявлений, справок и объяснительных. На странице каждого — что в него вписать и как он выглядит.",
+  sourceNotice: "Оригиналы некоторых бланков пока не добавлены.",
   emptyTitle: "Пока нет опубликованных документов",
-  emptyText: "Здесь появятся описания и доступные образцы документов.",
+  emptyText: "Здесь появятся бланки документов.",
   unavailableDownload: "DOCX пока недоступен",
-  previewTitle: "Образец документа",
+  previewTitle: "Как выглядит бланк",
   previewUnavailable: "Оригинал пока не добавлен",
   previewPending: "Предпросмотр пока недоступен",
-  previewDownloadNote:
-    "Оригинал можно скачать в формате DOCX. Встроенный предпросмотр не подготовлен.",
-  previewOpen: "Открыть образец целиком",
-  previewNote:
-    "Предпросмотр появится после проверки исходного DOCX. Это не официальный бланк.",
-  informationTitle: "Что понадобится",
+  previewDownloadNote: "Бланк можно скачать в формате DOCX.",
+  previewOpen: "Открыть бланк целиком",
+  previewNote: "Предпросмотр появится, когда будет добавлен оригинал.",
+  informationTitle: "Что вписать",
   informationNote:
     "Поля перечислены в том порядке, в котором они идут в бланке.",
-  usageTitle: "Когда используется",
-  downloadTitle: "Скачать образец DOCX",
+  exampleLabel: "Пример",
+  downloadTitle: "Скачать бланк DOCX",
+  downloadShort: "Скачать DOCX",
   backToDocuments: "Все документы",
-  openDocument: "Подробнее",
-  preparationLabel: "Перед заполнением",
-  sourceLabel: "Исходный файл",
   notFoundTitle: "Документ не найден",
-  notFoundText: "Проверьте ссылку или вернитесь в каталог документов.",
+  notFoundText: "Проверьте ссылку или вернитесь к списку документов.",
 };
 
-export const studentServices = [
+/** Sections of /student. Entries without `href` are hidden until they exist. */
+export const studentServices: readonly {
+  title: string;
+  summary: string;
+  href: string | null;
+}[] = [
   {
     title: "Документы",
-    summary: "Заявления, объяснительные и справки.",
+    summary: "Бланки заявлений, справок и объяснительных.",
     href: "/student/documents",
-    action: "Открыть",
   },
   {
     title: "Практика",
-    summary:
-      "Раздел для материалов по практике. Подтверждённые материалы пока не добавлены.",
-    href: null,
-    action: "Скоро",
+    summary: "Как вести дневник практики: титульный лист и примеры записей.",
+    href: "/student/practice",
   },
   {
     title: "Расписание",
     summary: "Студенческий проект для проверки расписания.",
     href: null,
-    action: "Ссылка пока недоступна",
   },
-] as const;
-
-export const documentCategoryLabels: Record<DocumentCategory, string> = {
-  EXPLANATION: "Объяснительная",
-  APPLICATION: "Заявление",
-  CERTIFICATE: "Справка",
-  OTHER: "Документ",
-};
+];
 
 /**
  * Titles and purposes supplied by the owner, aligned with the approved DOCX
@@ -149,52 +139,69 @@ export const documentCatalog: readonly StudentDocument[] = [
   },
 ];
 
-/** Fields in the order they appear in each original. Not a form schema. */
-export const documentGuidance: Record<string, readonly string[]> = {
+/**
+ * Fields in the order they appear on each original, by key into
+ * `studentFields`. Checked against the DOCX files; still not a form schema.
+ */
+export const documentGuidance: Record<string, readonly FieldKey[]> = {
   "missed-classes-explanation": [
-    "Курс и направление подготовки",
-    "Фамилия, имя и отчество полностью",
-    "Дата пропуска занятий",
-    "Дата и подпись",
-    "Телефон",
+    "course",
+    "direction",
+    "fullName",
+    "absenceDate",
+    "date",
+    "signature",
+    "phone",
   ],
   "absence-certificate-acceptance": [
-    "Курс и направление подготовки",
-    "Фамилия, имя и отчество полностью",
-    "Даты начала и окончания отсутствия",
-    "Причина отсутствия",
-    "Дата и подпись",
-    "Телефон",
+    "course",
+    "direction",
+    "fullName",
+    "periodStart",
+    "periodEnd",
+    "absenceReason",
+    "date",
+    "signature",
+    "phone",
   ],
   "class-release-application": [
-    "Курс и направление подготовки",
-    "Фамилия, имя и отчество полностью",
-    "Даты начала и окончания освобождения",
-    "Причина освобождения",
-    "Дата и подпись",
-    "Телефон",
+    "course",
+    "direction",
+    "fullName",
+    "periodStart",
+    "periodEnd",
+    "releaseReason",
+    "date",
+    "signature",
+    "phone",
   ],
   "tuition-payment-deferment": [
-    "Курс и направление подготовки",
-    "Фамилия, имя и отчество полностью",
-    "Первая или вторая половина оплаты",
-    "Дата, до которой нужна отсрочка",
-    "Причина отсрочки",
-    "Дата и подпись",
-    "Телефон",
+    "course",
+    "direction",
+    "fullName",
+    "paymentPart",
+    "deferUntil",
+    "deferReason",
+    "date",
+    "signature",
+    "phone",
   ],
   "graduation-certificate": [
-    "Год выпуска и направление подготовки",
-    "Фамилия, имя и отчество полностью",
-    "Магистратура, в которую вы поступаете",
-    "Подпись и дата",
-    "Мобильный телефон",
+    "graduationYear",
+    "direction",
+    "fullName",
+    "masterProgram",
+    "signature",
+    "date",
+    "phone",
   ],
   "student-status-certificate": [
-    "Курс и направление подготовки",
-    "Фамилия, имя и отчество полностью",
-    "Место, куда нужна справка",
-    "Подпись и дата",
-    "Мобильный телефон",
+    "course",
+    "direction",
+    "fullName",
+    "recipient",
+    "signature",
+    "date",
+    "phone",
   ],
 };

@@ -41,8 +41,10 @@ npm run dev
 - **`participationSteps`**, **`benefits`**, **`plans`** — разделы «Участие» и
   «Что планируем дальше».
 - **`contactGroups`** — каналы в подвале.
-- Раздел «Студенту» → документы: тексты и порядок —
-  [`src/data/student.ts`](src/data/student.ts), сами бланки DOCX —
+- Раздел «Студенту»: документы — [`src/data/student.ts`](src/data/student.ts),
+  дневник практики — [`src/data/practice.ts`](src/data/practice.ts), поля,
+  которые заполняет студент (ФИО, курс, кафедра…), —
+  [`src/data/fields.ts`](src/data/fields.ts). Бланки DOCX лежат в
   `public/documents/templates/` (копии оригиналов без изменений, хэши в
   `SHA256SUMS`). Как заменить бланк и проверить production — в
   [docs/DOCUMENTS_ARCHITECTURE.md](docs/DOCUMENTS_ARCHITECTURE.md).

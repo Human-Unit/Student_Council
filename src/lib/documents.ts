@@ -1,6 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import previews from "@/data/document-previews.json";
+import { fieldsFor } from "@/data/fields";
 import { documentCatalog, documentGuidance } from "@/data/student";
 
 export type DocumentPreview = { src: string; width: number; height: number };
@@ -29,7 +30,7 @@ export const getDocument = cache(async (slug: string) => {
   return {
     document,
     number: String(index + 1).padStart(2, "0"),
-    information: documentGuidance[slug] ?? [],
+    information: fieldsFor(documentGuidance[slug] ?? []),
     // A preview without its downloadable original would be misleading.
     preview: document.template_url ? (documentPreviews[slug] ?? null) : null,
   };

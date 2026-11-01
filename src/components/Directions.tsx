@@ -41,9 +41,8 @@ export function Directions() {
           tone="blue"
           index="02"
           eyebrow="Направления"
-          title="Чем мы занимаемся сейчас"
+          title="Чем мы занимаемся"
           titleId="directions-title"
-          lead={tie("Пять направлений — одна команда")}
         />
         <div className="dir-stage" data-reveal>
           <DirectionList side="left" />

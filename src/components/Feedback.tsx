@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import { ideaHandle, ideaUrl, plans } from "@/data/site";
 import { tie } from "@/lib/typography";
 import { ActionLink } from "./ActionLink";
-import { Chevron, Star } from "./BrandShapes";
+import { Chevron } from "./BrandShapes";
 import { Logo } from "./Logo";
 import { SectionHeading } from "./SectionHeading";
 
@@ -13,7 +13,7 @@ export function Feedback() {
       className="section idea"
       id="idea"
       aria-labelledby="plans-title"
-      data-index="06"
+      data-index="05"
       data-theme="deep"
     >
       <div className="idea-super" aria-hidden="true">
@@ -24,8 +24,8 @@ export function Feedback() {
       <div className="shell">
         <SectionHeading
           tone="blue"
-          index="06"
-          eyebrow="Дальше"
+          index="05"
+          eyebrow="Планы"
           title="Что планируем дальше"
           titleId="plans-title"
         />
@@ -57,11 +57,6 @@ export function Feedback() {
             <br />
             проблема или проект?
           </h2>
-          <div className="idea-row">
-            <span className="plate plate--paper plate--xl">Расскажи нам</span>
-            <Star className="idea-star" />
-            <Star className="idea-star idea-star--small" />
-          </div>
           <p className="idea-note">
             {tie("Следующий пункт в планах может быть твоим. Пиши в директ")}{" "}
             <b>{ideaHandle}</b>

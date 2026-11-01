@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ActionLink } from "@/components/ActionLink";
-import { Chevron, Star } from "@/components/BrandShapes";
+import { ArrowIcon } from "@/components/ArrowIcon";
+import { Star } from "@/components/BrandShapes";
 import { DocumentDownload } from "@/components/student/DocumentList";
+import { FieldList } from "@/components/student/FieldList";
 import { StudentIntro } from "@/components/student/StudentIntro";
 import { studentCopy } from "@/data/student";
 import { getDocument, getDocuments } from "@/lib/documents";
@@ -49,7 +51,13 @@ export default async function DocumentPage({ params }: Props) {
           { label: studentCopy.documentsTitle, href: "/student/documents" },
           { label: document.short_title ?? document.title },
         ]}
-      />
+      >
+        {document.template_url ? (
+          <div className="student-intro-actions">
+            <DocumentDownload document={document} tone="paper" size="md" />
+          </div>
+        ) : null}
+      </StudentIntro>
       <section
         className="student-content shell student-detail"
         data-index={number}
@@ -57,54 +65,61 @@ export default async function DocumentPage({ params }: Props) {
         aria-label="О документе"
       >
         <div className="student-detail-copy">
-          <p className="section-label">{studentCopy.preparationLabel}</p>
-          <h2>{studentCopy.usageTitle}</h2>
-          <p>{tie(document.summary)}</p>
           {information.length > 0 ? (
             <>
               <h2>{studentCopy.informationTitle}</h2>
-              <ul className="student-information">
-                {information.map((field) => (
-                  <li key={field}>
-                    <Chevron />
-                    {tie(field)}
-                  </li>
-                ))}
-              </ul>
+              <FieldList fields={information} />
               <p className="student-note">{tie(studentCopy.informationNote)}</p>
             </>
           ) : null}
-          <div className="student-detail-download">
-            <DocumentDownload document={document} />
+          <div className="student-detail-actions">
+            {document.template_url ? null : (
+              <DocumentDownload document={document} />
+            )}
+            <ActionLink href="/student/documents" tone="ink" size="sm">
+              {studentCopy.backToDocuments}
+            </ActionLink>
           </div>
-          <ActionLink href="/student/documents" tone="ink">
-            {studentCopy.backToDocuments}
-          </ActionLink>
         </div>
-        <figure className="student-preview">
+        <figure
+          className="student-preview"
+          data-empty={preview ? undefined : ""}
+        >
           <figcaption className="section-label">
             {studentCopy.previewTitle}
           </figcaption>
           {preview ? (
-            <a
-              className="student-paper student-paper--image"
-              href={preview.src}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${studentCopy.previewOpen}: ${document.title}`}
-            >
-              <Image
-                src={preview.src}
-                width={preview.width}
-                height={preview.height}
-                alt=""
-                sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1440px) 40vw, 560px"
-              />
-            </a>
+            <>
+              {/* The visible text link below is the accessible one. */}
+              <a
+                className="student-paper student-paper--image"
+                href={preview.src}
+                target="_blank"
+                rel="noreferrer"
+                tabIndex={-1}
+                aria-hidden="true"
+              >
+                <Image
+                  src={preview.src}
+                  width={preview.width}
+                  height={preview.height}
+                  alt=""
+                  sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1440px) 40vw, 560px"
+                />
+              </a>
+              <a
+                className="text-link"
+                href={preview.src}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {studentCopy.previewOpen}
+                <ArrowIcon direction="up-right" />
+              </a>
+            </>
           ) : (
             <div className="student-paper">
               <Star className="student-paper-star" />
-              <p className="section-label">{studentCopy.sourceLabel}</p>
               <p className="student-paper-title">
                 {document.template_url
                   ? studentCopy.previewPending
