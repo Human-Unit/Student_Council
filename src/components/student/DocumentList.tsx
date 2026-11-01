@@ -4,13 +4,14 @@ import {
   studentCopy,
   type StudentDocument,
 } from "@/data/student";
+import { downloadName } from "@/lib/template-files";
 import { tie } from "@/lib/typography";
 
 export function DocumentDownload({ document }: { document: StudentDocument }) {
   return document.template_url ? (
     <ActionLink
       href={document.template_url}
-      download
+      download={downloadName(document)}
       size="sm"
       label={`${studentCopy.downloadTitle}: ${document.title}`}
     >

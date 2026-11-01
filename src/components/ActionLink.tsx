@@ -9,7 +9,8 @@ type ActionLinkProps = {
   children: ReactNode;
   tone?: ActionTone;
   size?: "md" | "sm";
-  download?: boolean;
+  /** `true` or the file name to save the download under. */
+  download?: boolean | string;
   label?: string;
 };
 

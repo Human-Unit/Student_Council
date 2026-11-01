@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ActionLink } from "@/components/ActionLink";
 import { Chevron, Star } from "@/components/BrandShapes";
@@ -35,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function DocumentPage({ params }: Props) {
   const result = await getDocument((await params).slug);
   if (!result) notFound();
-  const { document, number, information } = result;
+  const { document, number, information, preview } = result;
   return (
     <>
       <StudentIntro
@@ -84,22 +85,40 @@ export default async function DocumentPage({ params }: Props) {
           <figcaption className="section-label">
             {studentCopy.previewTitle}
           </figcaption>
-          <div className="student-paper">
-            <Star className="student-paper-star" />
-            <p className="section-label">{studentCopy.sourceLabel}</p>
-            <p className="student-paper-title">
-              {document.template_url
-                ? studentCopy.previewPending
-                : studentCopy.previewUnavailable}
-            </p>
-            <p>
-              {tie(
-                document.template_url
-                  ? studentCopy.previewDownloadNote
-                  : studentCopy.previewNote,
-              )}
-            </p>
-          </div>
+          {preview ? (
+            <a
+              className="student-paper student-paper--image"
+              href={preview.src}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${studentCopy.previewOpen}: ${document.title}`}
+            >
+              <Image
+                src={preview.src}
+                width={preview.width}
+                height={preview.height}
+                alt=""
+                sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1440px) 40vw, 560px"
+              />
+            </a>
+          ) : (
+            <div className="student-paper">
+              <Star className="student-paper-star" />
+              <p className="section-label">{studentCopy.sourceLabel}</p>
+              <p className="student-paper-title">
+                {document.template_url
+                  ? studentCopy.previewPending
+                  : studentCopy.previewUnavailable}
+              </p>
+              <p>
+                {tie(
+                  document.template_url
+                    ? studentCopy.previewDownloadNote
+                    : studentCopy.previewNote,
+                )}
+              </p>
+            </div>
+          )}
         </figure>
       </section>
     </>

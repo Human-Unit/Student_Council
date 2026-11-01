@@ -20,7 +20,7 @@ export const studentCopy = {
   lead: "Документы, практика и студенческие сервисы — в одном разделе.",
   documentsTitle: "Документы",
   documentsLead:
-    "Заявления, объяснительные и справки. Назначение документов и данные, которые понадобятся для заполнения.",
+    "Заявления, объяснительные и справки: образцы в DOCX и данные, которые понадобятся для заполнения.",
   sourceNotice:
     "Оригиналы образцов пока не добавлены. Скачивание и предпросмотр недоступны.",
   emptyTitle: "Пока нет опубликованных документов",
@@ -31,11 +31,12 @@ export const studentCopy = {
   previewPending: "Предпросмотр пока недоступен",
   previewDownloadNote:
     "Оригинал можно скачать в формате DOCX. Встроенный предпросмотр не подготовлен.",
+  previewOpen: "Открыть образец целиком",
   previewNote:
     "Предпросмотр появится после проверки исходного DOCX. Это не официальный бланк.",
   informationTitle: "Что понадобится",
   informationNote:
-    "Перечень — ориентир по описанию документа. Точный текст и поля нужно сверить с оригиналом образца.",
+    "Поля перечислены в том порядке, в котором они идут в бланке.",
   usageTitle: "Когда используется",
   downloadTitle: "Скачать образец DOCX",
   backToDocuments: "Все документы",
@@ -75,18 +76,32 @@ export const documentCategoryLabels: Record<DocumentCategory, string> = {
   OTHER: "Документ",
 };
 
-/** Titles/purposes supplied by the owner. No official template wording or files fabricated. */
+/**
+ * Titles and purposes supplied by the owner, aligned with the approved DOCX
+ * originals in public/documents/templates (byte-identical, see SHA256SUMS).
+ */
 export const documentCatalog: readonly StudentDocument[] = [
   {
     slug: "missed-classes-explanation",
     title: "Объяснительная о пропуске занятий",
     short_title: null,
     summary:
-      "Для объяснения пропуска занятий: указываются дата и причина отсутствия.",
+      "Для пропуска занятий по болезни, если вы лечились дома: указывается дата пропуска.",
     category: "EXPLANATION",
     sort_order: 0,
     is_published: true,
-    template_url: null,
+    template_url: "/documents/templates/missed-classes-explanation.docx",
+  },
+  {
+    slug: "absence-certificate-acceptance",
+    title: "Заявление о принятии справки об отсутствии на занятиях",
+    short_title: "Заявление о принятии справки",
+    summary:
+      "Для пропуска занятий, подтверждённого справкой: указываются период отсутствия и причина.",
+    category: "APPLICATION",
+    sort_order: 1,
+    is_published: true,
+    template_url: "/documents/templates/absence-certificate-acceptance.docx",
   },
   {
     slug: "class-release-application",
@@ -95,9 +110,9 @@ export const documentCatalog: readonly StudentDocument[] = [
     summary:
       "Для обращения об освобождении от занятий на определённый период с указанием причины.",
     category: "APPLICATION",
-    sort_order: 1,
+    sort_order: 2,
     is_published: true,
-    template_url: null,
+    template_url: "/documents/templates/class-release-application.docx",
   },
   {
     slug: "tuition-payment-deferment",
@@ -106,20 +121,20 @@ export const documentCatalog: readonly StudentDocument[] = [
     summary:
       "Для обращения об отсрочке выплаты за обучение с указанием части оплаты, даты и причины.",
     category: "APPLICATION",
-    sort_order: 2,
+    sort_order: 3,
     is_published: true,
-    template_url: null,
+    template_url: "/documents/templates/tuition-payment-deferment.docx",
   },
   {
     slug: "graduation-certificate",
     title: "Заявление о выдаче справки об окончании",
     short_title: null,
     summary:
-      "Для запроса справки об окончании с указанием года выпуска и места предоставления, в том числе для поступления в магистратуру.",
+      "Для выпускников, поступающих в магистратуру: указываются год выпуска, направление и место поступления.",
     category: "CERTIFICATE",
-    sort_order: 3,
+    sort_order: 4,
     is_published: true,
-    template_url: null,
+    template_url: "/documents/templates/graduation-certificate.docx",
   },
   {
     slug: "student-status-certificate",
@@ -128,51 +143,58 @@ export const documentCatalog: readonly StudentDocument[] = [
     summary:
       "Для запроса справки о статусе студента с указанием места её предоставления.",
     category: "CERTIFICATE",
-    sort_order: 4,
+    sort_order: 5,
     is_published: true,
-    template_url: null,
+    template_url: "/documents/templates/student-status-certificate.docx",
   },
 ];
 
-/** Guidance from the supplied brief, not a form schema or replacement official text. */
+/** Fields in the order they appear in each original. Not a form schema. */
 export const documentGuidance: Record<string, readonly string[]> = {
   "missed-classes-explanation": [
-    "Курс и направление",
-    "Фамилия, имя и отчество",
+    "Курс и направление подготовки",
+    "Фамилия, имя и отчество полностью",
     "Дата пропуска занятий",
-    "Причина пропуска",
-    "Телефон",
     "Дата и подпись",
+    "Телефон",
+  ],
+  "absence-certificate-acceptance": [
+    "Курс и направление подготовки",
+    "Фамилия, имя и отчество полностью",
+    "Даты начала и окончания отсутствия",
+    "Причина отсутствия",
+    "Дата и подпись",
+    "Телефон",
   ],
   "class-release-application": [
-    "Курс и направление",
-    "Фамилия, имя и отчество",
-    "Дата начала и окончания периода",
+    "Курс и направление подготовки",
+    "Фамилия, имя и отчество полностью",
+    "Даты начала и окончания освобождения",
     "Причина освобождения",
-    "Телефон",
     "Дата и подпись",
+    "Телефон",
   ],
   "tuition-payment-deferment": [
-    "Курс и направление",
-    "Фамилия, имя и отчество",
+    "Курс и направление подготовки",
+    "Фамилия, имя и отчество полностью",
     "Первая или вторая половина оплаты",
     "Дата, до которой нужна отсрочка",
     "Причина отсрочки",
-    "Телефон",
     "Дата и подпись",
+    "Телефон",
   ],
   "graduation-certificate": [
-    "Год окончания и направление",
-    "Фамилия, имя и отчество",
-    "Место предоставления или поступления в магистратуру",
-    "Телефон",
-    "Дата и подпись",
+    "Год выпуска и направление подготовки",
+    "Фамилия, имя и отчество полностью",
+    "Магистратура, в которую вы поступаете",
+    "Подпись и дата",
+    "Мобильный телефон",
   ],
   "student-status-certificate": [
-    "Курс и направление",
-    "Фамилия, имя и отчество",
-    "Место предоставления справки",
-    "Телефон",
-    "Дата и подпись",
+    "Курс и направление подготовки",
+    "Фамилия, имя и отчество полностью",
+    "Место, куда нужна справка",
+    "Подпись и дата",
+    "Мобильный телефон",
   ],
 };

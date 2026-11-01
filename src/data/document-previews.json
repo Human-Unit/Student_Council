@@ -1,0 +1,32 @@
+{
+  "absence-certificate-acceptance": {
+    "src": "/documents/previews/absence-certificate-acceptance.png",
+    "width": 1200,
+    "height": 940
+  },
+  "class-release-application": {
+    "src": "/documents/previews/class-release-application.png",
+    "width": 1200,
+    "height": 1158
+  },
+  "graduation-certificate": {
+    "src": "/documents/previews/graduation-certificate.png",
+    "width": 1200,
+    "height": 1076
+  },
+  "missed-classes-explanation": {
+    "src": "/documents/previews/missed-classes-explanation.png",
+    "width": 1200,
+    "height": 1006
+  },
+  "student-status-certificate": {
+    "src": "/documents/previews/student-status-certificate.png",
+    "width": 1200,
+    "height": 1058
+  },
+  "tuition-payment-deferment": {
+    "src": "/documents/previews/tuition-payment-deferment.png",
+    "width": 1200,
+    "height": 1131
+  }
+}
