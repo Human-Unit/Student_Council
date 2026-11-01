@@ -163,7 +163,11 @@ export function Header({ home = true }: { home?: boolean }) {
         </nav>
 
         <div className="header-cta">
-          <ActionLink href={navigationHref("#idea", home)} tone="paper" size="sm">
+          <ActionLink
+            href={navigationHref("#idea", home)}
+            tone="paper"
+            size="sm"
+          >
             Предложить идею
           </ActionLink>
         </div>
@@ -195,7 +199,9 @@ export function Header({ home = true }: { home?: boolean }) {
               ref={index === 0 ? firstMenuLinkRef : undefined}
               key={item.href}
               href={navigationHref(item.href, home)}
-              aria-current={!home && item.href === "/student" ? "page" : undefined}
+              aria-current={
+                !home && item.href === "/student" ? "page" : undefined
+              }
               style={{ "--i": index } as CSSProperties}
               onClick={() => setMenuOpen(false)}
             >
