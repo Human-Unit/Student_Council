@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element -- next/og renders plain <img> */
 import { ImageResponse } from "next/og";
 import { brandColors, logoSvg } from "@/lib/brand";
 
