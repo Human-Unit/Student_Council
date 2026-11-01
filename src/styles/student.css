@@ -107,6 +107,15 @@
   pointer-events: none;
 }
 
+.student-intro-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(28px, 3.4vw, 44px);
+}
+
 .student-intro :focus-visible {
   outline-color: var(--white);
 }
@@ -225,6 +234,14 @@
 
 .student-row-actions .btn-label {
   white-space: normal;
+}
+
+.student-row-actions .text-link {
+  position: relative;
+  z-index: 2;
+  color: var(--blue);
+  font-size: 15px;
+  white-space: nowrap;
 }
 
 .student-row-arrow {
@@ -366,7 +383,7 @@
 }
 
 .student-detail-copy h2 {
-  margin-block: 32px 20px;
+  margin-block: 0 20px;
   font-size: clamp(26px, 2.6vw, 38px);
   line-height: 1.1;
   letter-spacing: -0.02em;
@@ -402,6 +419,12 @@
 
 .student-preview > figcaption {
   margin-bottom: 20px;
+}
+
+.student-preview .text-link {
+  margin-top: 18px;
+  color: var(--blue);
+  font-size: 15px;
 }
 
 .student-paper {
@@ -513,7 +536,7 @@
     border-radius: 14px;
   }
 
-  .student-row-actions .btn {
+  .student-row-actions :is(.btn, .text-link) {
     grid-row: 3;
     grid-column: 1 / -1;
     justify-self: start;
@@ -548,7 +571,7 @@
   }
 
   /* An A4 frame is too tall on a phone: keep the paper card, not the ratio. */
-  .student-paper {
+  .student-paper:not(.student-paper--image) {
     aspect-ratio: auto;
     max-height: none;
     padding: 24px;
@@ -559,11 +582,6 @@
     width: 32px;
     height: 32px;
     margin-bottom: 0;
-  }
-
-  /* The fixed page tab overlaps running text on narrow utility pages. */
-  .student-main ~ .page-tab {
-    display: none;
   }
 }
 
@@ -604,15 +622,16 @@
   }
 
   .student-detail-copy h2 {
-    margin-block: 28px 14px;
+    margin-bottom: 14px;
+  }
+
+  .student-intro-actions .btn,
+  .student-detail-actions .btn {
+    width: 100%;
   }
 
   .student-detail-actions {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .student-detail-actions .btn {
-    width: 100%;
   }
 }

@@ -164,8 +164,18 @@ student's filled title page. `{institution}` is the verified branch name from
 Content lives in `src/data/practice.ts`: guide rules, a weak/strong example, the
 title-page layout (`titlePageLines` with `{key}` tags), an illustrative diary
 table and the template list. The page says it is an example, not an official
-form. Both templates have `template_url: null` until approved originals exist;
-the same unavailable state as documents is shown, never a guessed path.
+form. Both templates have `template_url: null` until approved originals exist,
+so the «Шаблоны» chapter and its contents entry are not rendered; the example
+note says the template will appear there. Setting a `template_url` brings the
+chapter back with real download buttons, never a guessed path.
+
+## Pages
+
+The detail page leads with the download (intro action), then lists what to
+write in (`FieldList`, hints only where they add to the label) beside page 1 of
+the original. The catalog row links to the detail page as a whole and carries a
+«Скачать DOCX» text link. `/student` lists only sections that exist;
+`studentServices` entries without `href` (the schedule) stay hidden.
 
 ## Explicit exclusions and verification
 

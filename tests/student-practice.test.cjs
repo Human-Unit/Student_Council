@@ -133,3 +133,34 @@ test("practice templates never point at guessed files", () => {
   for (const template of practice.practiceTemplates)
     assert.equal(template.template_url, null);
 });
+
+test("field list shows a hint only when it adds something", () => {
+  const { FieldList } = loadSource(
+    path.join(root, "src/components/student/FieldList.tsx"),
+  );
+  const html = renderToStaticMarkup(
+    React.createElement(FieldList, {
+      fields: fieldsFor(["fullName", "group", "signature", "phone"]),
+    }),
+  );
+  assert.equal((html.match(/<dt>/g) || []).length, 4);
+  // tie() binds short words with no-break spaces.
+  const text = html.replaceAll("\u00a0", " ");
+  assert.ok(text.includes(studentFields.fullName.hint));
+  // "Группа" has no hint, the signature says "от руки" once, not twice.
+  assert.equal((html.match(/<dd>/g) || []).length, 1);
+  assert.ok(html.includes("от руки"));
+  assert.ok(!text.includes(studentFields.signature.hint));
+  assert.ok(text.includes(studentFields.phone.example));
+});
+
+test("document field lists follow the originals' order", () => {
+  for (const [slug, keys] of Object.entries(documentGuidance)) {
+    assert.equal(keys.at(-1), "phone", `${slug}: phone is last on the form`);
+    assert.ok(keys.includes("signature"), `${slug}: signature`);
+    assert.ok(keys.indexOf("fullName") < keys.indexOf("signature"), slug);
+  }
+  assert.ok(
+    !documentGuidance["missed-classes-explanation"].includes("absenceReason"),
+  );
+});

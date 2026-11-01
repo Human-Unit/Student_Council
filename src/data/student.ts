@@ -17,66 +17,54 @@ export type StudentDocument = {
 
 export const studentCopy = {
   title: "Студенту",
-  heading: "Полезное",
-  headingAccent: "без поиска по старым чатам",
-  lead: "Документы, практика и студенческие сервисы — в одном разделе.",
+  heading: "Бланки и памятки",
+  lead: "Заявления, справки и объяснительные в DOCX и памятка по дневнику практики.",
   documentsTitle: "Документы",
   documentsLead:
-    "Заявления, объяснительные и справки: образцы в DOCX и данные, которые понадобятся для заполнения.",
-  sourceNotice:
-    "Оригиналы образцов пока не добавлены. Скачивание и предпросмотр недоступны.",
+    "Бланки заявлений, справок и объяснительных. На странице каждого — что в него вписать и как он выглядит.",
+  sourceNotice: "Оригиналы некоторых бланков пока не добавлены.",
   emptyTitle: "Пока нет опубликованных документов",
-  emptyText: "Здесь появятся описания и доступные образцы документов.",
+  emptyText: "Здесь появятся бланки документов.",
   unavailableDownload: "DOCX пока недоступен",
-  previewTitle: "Образец документа",
+  previewTitle: "Как выглядит бланк",
   previewUnavailable: "Оригинал пока не добавлен",
   previewPending: "Предпросмотр пока недоступен",
-  previewDownloadNote:
-    "Оригинал можно скачать в формате DOCX. Встроенный предпросмотр не подготовлен.",
-  previewOpen: "Открыть образец целиком",
-  previewNote:
-    "Предпросмотр появится после проверки исходного DOCX. Это не официальный бланк.",
-  informationTitle: "Что понадобится",
+  previewDownloadNote: "Бланк можно скачать в формате DOCX.",
+  previewOpen: "Открыть бланк целиком",
+  previewNote: "Предпросмотр появится, когда будет добавлен оригинал.",
+  informationTitle: "Что вписать",
   informationNote:
     "Поля перечислены в том порядке, в котором они идут в бланке.",
   exampleLabel: "Пример",
-  usageTitle: "Когда используется",
-  downloadTitle: "Скачать образец DOCX",
+  downloadTitle: "Скачать бланк DOCX",
+  downloadShort: "Скачать DOCX",
   backToDocuments: "Все документы",
-  preparationLabel: "Перед заполнением",
-  sourceLabel: "Исходный файл",
   notFoundTitle: "Документ не найден",
-  notFoundText: "Проверьте ссылку или вернитесь в каталог документов.",
+  notFoundText: "Проверьте ссылку или вернитесь к списку документов.",
 };
 
-export const studentServices = [
+/** Sections of /student. Entries without `href` are hidden until they exist. */
+export const studentServices: readonly {
+  title: string;
+  summary: string;
+  href: string | null;
+}[] = [
   {
     title: "Документы",
-    summary: "Заявления, объяснительные и справки.",
+    summary: "Бланки заявлений, справок и объяснительных.",
     href: "/student/documents",
-    action: "Открыть",
   },
   {
     title: "Практика",
-    summary:
-      "Как вести дневник практики: титульный лист, примеры записей и шаблоны.",
+    summary: "Как вести дневник практики: титульный лист и примеры записей.",
     href: "/student/practice",
-    action: "Открыть",
   },
   {
     title: "Расписание",
     summary: "Студенческий проект для проверки расписания.",
     href: null,
-    action: "Ссылка пока недоступна",
   },
-] as const;
-
-export const documentCategoryLabels: Record<DocumentCategory, string> = {
-  EXPLANATION: "Объяснительная",
-  APPLICATION: "Заявление",
-  CERTIFICATE: "Справка",
-  OTHER: "Документ",
-};
+];
 
 /**
  * Titles and purposes supplied by the owner, aligned with the approved DOCX

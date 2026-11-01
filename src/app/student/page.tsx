@@ -18,13 +18,7 @@ export default function StudentPage() {
     <>
       <StudentIntro
         eyebrow={studentCopy.title}
-        title={
-          <>
-            {studentCopy.heading}
-            <br />
-            <em>{tie(studentCopy.headingAccent)}</em>
-          </>
-        }
+        title={studentCopy.heading}
         lead={studentCopy.lead}
         breadcrumbs={[{ label: studentCopy.title }]}
       />
@@ -35,16 +29,17 @@ export default function StudentPage() {
         data-theme="paper"
       >
         <ol className="student-rows">
-          {studentServices.map((service, index) => (
-            <StudentRow
-              key={service.title}
-              number={rowNumber(index)}
-              href={service.href}
-              title={service.title}
-              summary={tie(service.summary)}
-              meta={service.href ? [] : [service.action]}
-            />
-          ))}
+          {studentServices
+            .filter((service) => service.href)
+            .map((service, index) => (
+              <StudentRow
+                key={service.title}
+                number={rowNumber(index)}
+                href={service.href}
+                title={service.title}
+                summary={tie(service.summary)}
+              />
+            ))}
         </ol>
       </section>
     </>

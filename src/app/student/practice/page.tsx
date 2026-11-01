@@ -37,9 +37,16 @@ export const metadata: Metadata = {
   twitter: { title, description: practiceCopy.lead },
 };
 
+// The templates chapter appears only once an approved original exists.
+const hasTemplates = practiceTemplates.some(
+  (template) => template.template_url,
+);
+const sections = practiceSections.filter(
+  (section) => hasTemplates || section.id !== "practice-templates",
+);
 const FIRST_CHAPTER = 2;
 const chapter = (id: (typeof practiceSections)[number]["id"]) => {
-  const position = practiceSections.findIndex((section) => section.id === id);
+  const position = sections.findIndex((section) => section.id === id);
   return String(position + FIRST_CHAPTER).padStart(2, "0");
 };
 
@@ -48,20 +55,14 @@ export default function PracticePage() {
     <>
       <StudentIntro
         eyebrow={studentCopy.title}
-        title={
-          <>
-            {practiceCopy.heading}
-            <br />
-            <em>{tie(practiceCopy.headingAccent)}</em>
-          </>
-        }
+        title={practiceCopy.heading}
         lead={practiceCopy.lead}
         breadcrumbs={[
           { label: studentCopy.title, href: "/student" },
           { label: practiceCopy.title },
         ]}
       >
-        <PracticeToc sections={practiceSections} firstIndex={FIRST_CHAPTER} />
+        <PracticeToc sections={sections} firstIndex={FIRST_CHAPTER} />
       </StudentIntro>
 
       <section
@@ -73,6 +74,7 @@ export default function PracticePage() {
       >
         <p className="practice-disclaimer" role="note">
           {tie(practiceCopy.disclaimer)}
+          {hasTemplates ? null : <> {tie(practiceCopy.templatesPending)}</>}
         </p>
         <SectionHeading
           index={chapter("practice-guide")}
@@ -150,40 +152,37 @@ export default function PracticePage() {
         <DiaryTable entries={diaryExample} />
       </section>
 
-      <section
-        className="practice-section shell"
-        id="practice-templates"
-        data-index={chapter("practice-templates")}
-        data-theme="paper"
-        aria-labelledby="practice-templates-title"
-      >
-        <SectionHeading
-          index={chapter("practice-templates")}
-          eyebrow={practiceCopy.title}
-          title={practiceCopy.templatesTitle}
-          titleId="practice-templates-title"
-          lead={tie(practiceCopy.templatesLead)}
-        />
-        <ol className="student-rows practice-templates">
-          {practiceTemplates.map((template, index) => (
-            <StudentRow
-              key={template.slug}
-              number={rowNumber(index)}
-              title={template.title}
-              summary={tie(template.summary)}
-              meta={[
-                template.template_url
-                  ? "DOCX"
-                  : studentCopy.unavailableDownload,
-              ]}
-            >
-              {template.template_url ? (
-                <DocumentDownload document={template} />
-              ) : null}
-            </StudentRow>
-          ))}
-        </ol>
-      </section>
+      {hasTemplates ? (
+        <section
+          className="practice-section shell"
+          id="practice-templates"
+          data-index={chapter("practice-templates")}
+          data-theme="paper"
+          aria-labelledby="practice-templates-title"
+        >
+          <SectionHeading
+            index={chapter("practice-templates")}
+            eyebrow={practiceCopy.title}
+            title={practiceCopy.templatesTitle}
+            titleId="practice-templates-title"
+            lead={tie(practiceCopy.templatesLead)}
+          />
+          <ol className="student-rows practice-templates">
+            {practiceTemplates
+              .filter((template) => template.template_url)
+              .map((template, index) => (
+                <StudentRow
+                  key={template.slug}
+                  number={rowNumber(index)}
+                  title={template.title}
+                  summary={tie(template.summary)}
+                >
+                  <DocumentDownload document={template} />
+                </StudentRow>
+              ))}
+          </ol>
+        </section>
+      ) : null}
     </>
   );
 }

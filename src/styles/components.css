@@ -470,13 +470,8 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 760px) {
   .page-tab {
-    width: 32px;
-    height: 50px;
-  }
-
-  .page-tab span {
-    font-size: 13px;
+    display: none;
   }
 }

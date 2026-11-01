@@ -1,21 +1,28 @@
-import { ActionLink } from "@/components/ActionLink";
-import {
-  documentCategoryLabels,
-  studentCopy,
-  type StudentDocument,
-} from "@/data/student";
+import { ActionLink, type ActionTone } from "@/components/ActionLink";
+import { ArrowIcon } from "@/components/ArrowIcon";
+import { studentCopy, type StudentDocument } from "@/data/student";
 import { downloadName } from "@/lib/template-files";
 import { tie } from "@/lib/typography";
 import { rowNumber, StudentRow } from "./StudentRows";
 
 type Downloadable = { title: string; template_url: string | null };
 
-export function DocumentDownload({ document }: { document: Downloadable }) {
+/** Primary download button; a document without an original says so. */
+export function DocumentDownload({
+  document,
+  tone = "blue",
+  size = "sm",
+}: {
+  document: Downloadable;
+  tone?: ActionTone;
+  size?: "md" | "sm";
+}) {
   return document.template_url ? (
     <ActionLink
       href={document.template_url}
       download={downloadName(document)}
-      size="sm"
+      tone={tone}
+      size={size}
       label={`${studentCopy.downloadTitle}: ${document.title}`}
     >
       {studentCopy.downloadTitle}
@@ -48,13 +55,18 @@ export function DocumentList({
           label={document.short_title ? document.title : undefined}
           title={tie(document.short_title ?? document.title)}
           summary={tie(document.summary)}
-          meta={[
-            documentCategoryLabels[document.category],
-            document.template_url ? "DOCX" : studentCopy.unavailableDownload,
-          ]}
+          meta={document.template_url ? [] : [studentCopy.unavailableDownload]}
         >
           {document.template_url ? (
-            <DocumentDownload document={document} />
+            <a
+              className="text-link student-row-download"
+              href={document.template_url}
+              download={downloadName(document)}
+              aria-label={`${studentCopy.downloadTitle}: ${document.title}`}
+            >
+              {studentCopy.downloadShort}
+              <ArrowIcon direction="down" />
+            </a>
           ) : null}
         </StudentRow>
       ))}
