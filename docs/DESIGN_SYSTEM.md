@@ -212,9 +212,11 @@ large number, editorial title/summary and actions; narrow layouts stack these in
 reading order. There is no card grid or new radius/color/shadow/font system.
 Document titles remain readable on mobile, including Cyrillic descenders.
 
-Detail pages pair preparation notes with a paper-proportioned preview area using
-existing white/paper/line/shadow tokens. A missing original gets an explicitly
-unavailable state, not reconstructed official text or a fake generator. Existing
+Detail pages pair preparation notes with a preview area using existing
+white/paper/line/shadow tokens. With an approved original it shows page 1
+rendered from that file (trimmed sheet, linked to the full image); a missing
+original gets an explicitly unavailable state, not reconstructed official text
+or a fake generator. Existing
 homepage chapters remain unchanged; only shared navigation gains `Студенту`.
 
 ## Reference evidence and QA

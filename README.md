@@ -41,6 +41,11 @@ npm run dev
 - **`participationSteps`**, **`benefits`**, **`plans`** — разделы «Участие» и
   «Что планируем дальше».
 - **`contactGroups`** — каналы в подвале.
+- Раздел «Студенту» → документы: тексты и порядок —
+  [`src/data/student.ts`](src/data/student.ts), сами бланки DOCX —
+  `public/documents/templates/` (копии оригиналов без изменений, хэши в
+  `SHA256SUMS`). Как заменить бланк и проверить production — в
+  [docs/DOCUMENTS_ARCHITECTURE.md](docs/DOCUMENTS_ARCHITECTURE.md).
 - **`teamMembers`** — состав команды. Раздел «Команда» появится сам, как только
   массив не пустой. Фото кладите в `public/team/` (портрет 4:5).
 
