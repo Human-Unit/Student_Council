@@ -13,7 +13,8 @@ const DOCX_TYPE =
 const base = (process.argv[2] ?? "").replace(/\/+$/, "");
 if (!/^https?:\/\/[^/]+/.test(base)) {
   console.error("Usage: node scripts/verify-document-templates.mjs <site-url>");
-  process.exit(2);
+  process.exitCode = 2;
+  throw new Error("Missing valid target URL");
 }
 
 const sums = readFileSync(
@@ -52,4 +53,4 @@ console.log(
     ? `${failed} of ${sums.length} templates failed`
     : `All ${sums.length} templates match the originals`,
 );
-process.exit(failed ? 1 : 0);
+process.exitCode = failed ? 1 : 0;
