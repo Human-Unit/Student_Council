@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element -- next/og renders plain <img> */
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
