@@ -9,7 +9,6 @@ import {
   PageTabShape,
   TelegramIcon,
 } from "./BrandShapes";
-import { DushanbeClock } from "./DushanbeClock";
 import { Logo } from "./Logo";
 
 export function Footer({ home = true }: { home?: boolean }) {
@@ -18,7 +17,7 @@ export function Footer({ home = true }: { home?: boolean }) {
       className="site-footer"
       id="contacts"
       aria-labelledby="contacts-title"
-      data-index="07"
+      data-index="06"
       data-theme="ink"
     >
       <Logo className="footer-watermark" tone="ink" />
@@ -29,7 +28,7 @@ export function Footer({ home = true }: { home?: boolean }) {
             <p className="section-label">
               <span className="section-tab" aria-hidden="true">
                 <PageTabShape />
-                <span>07</span>
+                <span>06</span>
               </span>
               <span>Контакты</span>
             </p>
@@ -101,13 +100,6 @@ export function Footer({ home = true }: { home?: boolean }) {
             <p className="footer-col-title">Филиал</p>
             <Emblem className="footer-emblem" />
             <p>{tie(site.branch)}</p>
-          </div>
-          <div className="footer-col">
-            <p className="footer-col-title">Сейчас в Душанбе</p>
-            <p className="footer-clock">
-              <DushanbeClock />
-              <span>GMT+5</span>
-            </p>
           </div>
           <div className="footer-col footer-col--end">
             <a className="to-top" href="#top">

@@ -55,11 +55,6 @@ export function Hero() {
           />
         </div>
       </div>
-
-      <a className="hero-scroll" href="#about">
-        <span>Листайте</span>
-        <span className="hero-scroll-line" aria-hidden="true" />
-      </a>
     </section>
   );
 }

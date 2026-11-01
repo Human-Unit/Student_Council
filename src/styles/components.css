@@ -279,13 +279,6 @@
   color: var(--blue);
 }
 
-.plate--xl {
-  height: clamp(64px, 6.4vw, 104px);
-  padding: 0 clamp(28px, 3vw, 46px);
-  border-radius: clamp(18px, 1.8vw, 26px);
-  font-size: clamp(26px, 3.2vw, 54px);
-}
-
 .badge {
   display: inline-flex;
   align-items: center;

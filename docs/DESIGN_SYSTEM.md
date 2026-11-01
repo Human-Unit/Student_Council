@@ -9,8 +9,8 @@ Source files remain authoritative; values below are references, not new tokens.
 Read this before substantial UI work. The current site is an intentional design,
 not scaffolding. A feature is not permission to redesign unrelated sections.
 
-- `src/app/page.tsx` composes Header → Hero → Ticker → About → Directions →
-  Sectors → Join → optional Team → Feedback → Footer. PageTab and Effects supply
+- `src/app/page.tsx` composes Header → Hero → About → Directions → Sectors →
+  Join → optional Team → Feedback → Footer (chapters 01–06). PageTab and Effects supply
   progressive enhancements; BrandDefs supplies shared SVG filters.
 - `src/app/globals.css` imports section-specific styles, with tokens first.
 - `src/styles/tokens.css` owns CSS tokens; `src/lib/brand.ts` owns SVG geometry,
@@ -87,7 +87,7 @@ Actual patterns:
   line-height 1.02, tracking -0.03em, max-width 17ch, balanced wrapping.
 - Section leads: `clamp(18px, 1.6vw, 26px)`, weight 430, max-width 44ch.
 - Small labels: 15px/620 with +0.02em tracking; sector HUD labels use wider
-  tracking and capitals. Ticker tags and plates use capitals intentionally;
+  tracking and capitals. Plates use capitals intentionally;
   prose and most headings retain Russian sentence case.
 - `em` is upright, not italic; emphasis uses existing color/weight treatments.
 
@@ -116,22 +116,21 @@ do not apply rounded containers indiscriminately to every paragraph/section.
 
 ## Components and recurring patterns
 
-| Component/source                                 | Preserve/reuse                                                                                                           |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
-| `Header.tsx`, `header.css`                       | Fixed logo/wordmark, desktop links, active-section observation, scrolled glass bar, hide-on-downscroll and mobile menu   |
-| `Hero.tsx`, `hero.css`                           | Full blue opening, branch emblem, three display lines, paired CTAs, oversized light logo, deep-blue swoosh               |
-| `SectionHeading.tsx`                             | Numbered pentagonal tab, eyebrow, h2, optional lead; paper/blue/ink tones                                                |
-| `ActionLink.tsx`, `ArrowIcon.tsx`                | Rounded text + arrow tile; existing blue/paper/ink/red/ghost/kmts/osps tones and md/sm sizes; external links open safely |
-| `About.tsx`, `ScrollText.tsx`                    | Scroll-lit statement, roles with roof-chevron bullets, students/logo/university bridge                                   |
-| `Directions.tsx`, `about.css`                    | Labels linked to specific logo pieces; narrow layout stacks without connector lines                                      |
-| `Sectors.tsx`, `SectorVisual.tsx`, `sectors.css` | ИПОС/КМТС/ОСПС full-width chapters, alternating editorial visual/body layouts and sector-specific colors/HUDs            |
-| `Join.tsx`, `join.css`                           | Participation staircase, benefits and verified external form cards                                                       |
-| `Team.tsx`, `team.css`                           | Conditional verified members only; empty data hides the section, not fake profiles                                       |
-| `Feedback.tsx`, `feedback.css`                   | Existing idea/contact CTA and branded closing statement; not an API submission form yet                                  |
-| `Footer.tsx`, `footer.css`                       | Contact groups, existing brand composition and back-to-top control                                                       |
-| `Ticker.tsx`, `hero.css`                         | Repeated decorative uppercase tags and stars; hidden from assistive technology                                           |
-| `PageTab.tsx`, `components.css`                  | Fixed pentagonal current-section marker, themed from existing section data                                               |
-| `BrandShapes.tsx`, `BrandDefs.tsx`, `brand.ts`   | Shared geometry, currentColor icons and cut-paper filters                                                                |
+| Component/source                                 | Preserve/reuse                                                                                                            |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| `Header.tsx`, `header.css`                       | Fixed logo/wordmark, desktop links, active-section observation, scrolled glass bar, hide-on-downscroll and mobile menu    |
+| `Hero.tsx`, `hero.css`                           | Full blue opening, branch emblem, three display lines, paired CTAs, oversized light logo, deep-blue swoosh; no scroll cue |
+| `SectionHeading.tsx`                             | Numbered pentagonal tab, eyebrow, h2, optional lead; paper/blue/ink tones                                                 |
+| `ActionLink.tsx`, `ArrowIcon.tsx`                | Rounded text + arrow tile; existing blue/paper/ink/red/ghost/kmts/osps tones and md/sm sizes; external links open safely  |
+| `About.tsx`, `ScrollText.tsx`                    | Scroll-lit statement, roles with roof-chevron bullets, students/logo/university bridge                                    |
+| `Directions.tsx`, `about.css`                    | Labels linked to specific logo pieces; narrow layout stacks without connector lines                                       |
+| `Sectors.tsx`, `SectorVisual.tsx`, `sectors.css` | ИПОС/КМТС/ОСПС full-width chapters, alternating editorial visual/body layouts and sector-specific colors/HUDs             |
+| `Join.tsx`, `join.css`                           | One chapter: participation staircase and the freshman form cards (the only place forms are linked)                        |
+| `Team.tsx`, `team.css`                           | Conditional verified members only; empty data hides the section, not fake profiles                                        |
+| `Feedback.tsx`, `feedback.css`                   | Plans and the idea/contact CTA; not an API submission form yet                                                            |
+| `Footer.tsx`, `footer.css`                       | Contact groups, sections, branch, back-to-top control and brand line                                                      |
+| `PageTab.tsx`, `components.css`                  | Fixed pentagonal current-section marker, themed from existing section data                                                |
+| `BrandShapes.tsx`, `BrandDefs.tsx`, `brand.ts`   | Shared geometry, currentColor icons and cut-paper filters                                                                 |
 
 New pages should share the typography, shell, chapter hierarchy, brand primitives
 and ActionLink behavior. Do not copy the entire landing's spectacle into every
@@ -151,7 +150,7 @@ sets it to 1. Header/PageTab use their own observers for navigation/section stat
 
 Hover/focus CTAs rise 2px, sweep a fill upward and exchange arrow glyphs. Existing
 easing tokens are ease-out `(0.16,1,0.3,1)`, ease-in-out `(0.76,0,0.24,1)` and
-ease-pop `(0.34,1.5,0.64,1)`. Hero glow/swoosh drift for 28s/24s, ticker for 64s;
+ease-pop `(0.34,1.5,0.64,1)`. Hero glow/swoosh drift for 28s/24s;
 sector HUDs and timecodes have scoped effects. Reuse, do not multiply these.
 
 `base.css` disables smooth scrolling and reduces animation/transition durations
@@ -164,20 +163,20 @@ without scripting and with reduced motion; preserve focus outlines and skip link
 There is no single Tailwind breakpoint scheme: section CSS uses content-driven
 breakpoints. Preserve those relationships rather than choosing a new framework.
 
-| Width/state     | Actual behavior                                                                                                          |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Desktop >1080px | Desktop navigation and header CTA; header token 88px; multi-column editorial layouts                                     |
-| ≤1080px         | Full-screen mobile menu and 48×48 toggle; header token 80px; roles and form blocks simplify                              |
-| ≤1040px         | Directions stack, logo precedes labels, connectors disappear                                                             |
-| ≤960px          | Sectors become one column with the visual above the text                                                                 |
-| ≤900px          | Hero logo above copy; About, feedback/footer and Join layouts stack; benefits become two columns                         |
-| ≤760px          | Team grid follows its narrow layout (team remains hidden when empty)                                                     |
-| ≤640px          | Header token 72px, compact logo/bar, smaller fixed page tab                                                              |
-| ≤560px          | Hero title `clamp(38px,11.6vw,64px)`; stacked CTAs; benefits one column; sector buttons full-width and visual ratio 1.15 |
+| Width/state     | Actual behavior                                                                                                      |
+| --------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Desktop >1080px | Desktop navigation and header CTA; header token 88px; multi-column editorial layouts                                 |
+| ≤1080px         | Full-screen mobile menu and 48×48 toggle; header token 80px; roles and form blocks simplify                          |
+| ≤1040px         | Directions stack as a list; the logo and connectors are hidden (without lines the logo labels nothing)               |
+| ≤960px          | Sectors become one column with the visual above the text                                                             |
+| ≤900px          | Hero logo above copy; About stacks and hides the students↔university diagram; feedback/footer and Join layouts stack |
+| ≤760px          | Team grid follows its narrow layout (team remains hidden when empty); fixed PageTab hidden on every page             |
+| ≤640px          | Header token 72px, compact logo/bar                                                                                  |
+| ≤560px          | Hero title `clamp(38px,11.6vw,64px)`; stacked CTAs; sector scene illustrations hidden (cards keep sector colour)     |
 
 Fluid clamp sizing/gutters apply between breakpoints. Oversized decorative shapes
 are clipped by their section, not allowed to widen the document. Body uses
-overflow-x:clip; ticker is intentionally wider inside its clipped viewport.
+overflow-x:clip.
 Do not hide genuine content overflow to conceal layout bugs. Primary ActionLink
 minimum height is 60px; the mobile toggle is 48px square and arrow tile 44px.
 These are existing primary controls, not a claim that every link is 44px high.
@@ -226,14 +225,29 @@ homepage chapters remain unchanged; only shared navigation gains `Студент
   availability) are small meta chips above the title. Real downloads sit above
   the stretched link. Row focus is outlined on the whole row.
 - ≤760: rows become number + arrow on one line, then meta, title and summary.
-  The fixed PageTab is hidden on `/student` pages because it covers running
-  text; the empty A4 preview is hidden when no original exists.
+  The fixed PageTab is hidden on narrow screens site-wide because it covers
+  running text; the preview frame is hidden when no original exists.
 - ≤640: the breadcrumb trail becomes one "← parent" link.
 - ≤560: intro star hidden, tighter intro, h1 `clamp(32px, 9.4vw, 44px)`.
 - Practice: in-intro contents (4 → 2 → 1 columns), guide rules with the roof
   chevron, weak/strong example cards, a paper title-page map with highlighted
   fields (A4 ratio from 561px up), and a real `<table>` of diary entries that
   restyles to stacked entries at ≤760. No new tokens, fonts or icon family.
+
+## Density pass (2026-11-01)
+
+Removed as decoration without information, or as duplicates: the hashtag
+ticker, the "Листайте" scroll cue, the live Dushanbe clock in the footer, the
+non-clickable «Расскажи нам» plate and its stars, the benefits chapter
+(«Не должность, а реальный опыт» + six generic benefits) and the form buttons
+inside sector cards (forms stay in Join). Phone and tablet layouts hide what
+only repeats the text next to it (see the responsive table). Copy avoids
+slogans and "X, а не Y" constructions; a heading names what follows.
+
+On the documents detail page the download is the intro's primary action; the
+body lists what to write in and shows the original. Catalog rows are one tap
+target with a «Скачать DOCX» text link; categories are not repeated as chips
+because titles already say «Заявление»/«Объяснительная».
 
 ## Reference evidence and QA
 
@@ -245,7 +259,8 @@ requests and zero measured document horizontal overflow during a full-page scrol
 Desktop anchor navigation and narrow-menu open/focus/inert/Escape/anchor-close
 passed; reduced motion left all reveal content visible and stopped the ticker.
 
-References in `docs/design-reference/`:
+References in `docs/design-reference/` (re-captured 2026-11-01 after the
+density pass, same viewports, local production build):
 
 - `desktop-home.png` — 1440×900, opening composition.
 - `landscape-home.png` — 1024×768, compact navigation and heading scaling.

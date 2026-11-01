@@ -1,16 +1,9 @@
 import type { CSSProperties } from "react";
 import { links, sectors, type Sector } from "@/data/site";
 import { tie } from "@/lib/typography";
-import { ActionLink, type ActionTone } from "./ActionLink";
 import { ArrowIcon } from "./ArrowIcon";
 import { SectionHeading } from "./SectionHeading";
 import { SectorVisual } from "./SectorVisual";
-
-const formTone: Record<Sector["id"], ActionTone> = {
-  ipos: "red",
-  kmts: "kmts",
-  osps: "osps",
-};
 
 function SectorCard({ sector, index }: { sector: Sector; index: number }) {
   return (
@@ -35,13 +28,8 @@ function SectorCard({ sector, index }: { sector: Sector; index: number }) {
             </li>
           ))}
         </ul>
-        <div className="sector-actions">
-          {sector.form && (
-            <ActionLink href={sector.form} tone={formTone[sector.id]}>
-              Анкета для первокурсников
-            </ActionLink>
-          )}
-          {sector.id === "ipos" && links.councilInstagram && (
+        {sector.id === "ipos" && links.councilInstagram && (
+          <div className="sector-actions">
             <a
               className="text-link"
               href={links.councilInstagram}
@@ -50,8 +38,8 @@ function SectorCard({ sector, index }: { sector: Sector; index: number }) {
             >
               Наши работы в Instagram <ArrowIcon direction="up-right" />
             </a>
-          )}
-        </div>
+          </div>
+        )}
         {sector.lead && (
           <p className="sector-lead">
             <span>{sector.lead.role}</span>
@@ -84,14 +72,10 @@ export function Sectors() {
         <SectionHeading
           index="03"
           eyebrow="Секторы"
-          title={
-            <>
-              Три сектора — <em>одна команда</em>
-            </>
-          }
+          title="Три сектора"
           titleId="sectors-title"
           lead={tie(
-            "Выбирай, что тебе ближе: медиа и съёмки, события и праздники или знания за пределами пар.",
+            "Медиа, события или учёба вне пар. Анкеты для первокурсников — ниже, в разделе «Участие».",
           )}
         />
         <div className="sector-list">
